@@ -25,3 +25,4 @@ while len(text) > 0:
     text.pop(ind)
 
 print("\nThere are " + str(good) + " good passports\n")
+#Winner!
