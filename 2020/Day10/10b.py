@@ -24,7 +24,7 @@ def runout(start, ans):
             if (adapters[start + n] - adapters[start]) <= 3:
                 ans = runout((start+n), ans)
     iterations +=1
-    #print(iterations)
+    print(iterations)
     return ans
 answer = 0
 answer = runout(0,0)
