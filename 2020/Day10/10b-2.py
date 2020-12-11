@@ -12,29 +12,24 @@ iterations = 0
 
 for a in range(len(test)): adapters.append(int(test[a].strip()))
 
-adapters.sort(reverse=True) #sort smallest to largest
-adapters.insert(0, adapters[0] + 3) #append internal adapter
+adapters.sort(reverse=True) #sort
+adapters.insert(0, adapters[0] + 3) #insert internal adapter (largest +3)
 end = len(adapters)-1
 
-ways_to = dict()
-#print(adapters)
+ways_to = dict() #create dict of all adapters and the ways to them
+for x in adapters: ways_to[x] = 0 
 
-for x in adapters: ways_to[x] = 0
-
-ways_to[adapters[0]] = 1
+ways_to[adapters[0]] = 1 #seed internal adapter
 
 for x in range(len(adapters)):
     y = ways_to[adapters[x]]
-    print("Adapter " + str(adapters[x]) + ", dict: " + str(ways_to[adapters[x]]))
+    #print("Adapter " + str(adapters[x]) + ", dict: " + str(ways_to[adapters[x]]))
     for n in range(1,4):
         if (x + n) <= end:
             if (adapters[x] - adapters[x+n]) <= 3:
                 ways_to[adapters[x+n]] += y
 
-#answer = 0
-#for x in adapters:
-#    answer = answer+ways_to[x]
+
 print("\nThere are " + str(ways_to[0]) + " combinations that will work.\n")
-#print(answer)
 
 #EOF
