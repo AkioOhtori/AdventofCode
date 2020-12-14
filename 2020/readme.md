@@ -6,7 +6,7 @@ Day 03 - The one with the trees (file navigation)
 Day 04 - Passport (data) validation
 Day 05 - Seat finder
 Day 06 - Survey parser
-Day 07 - Bag finder
+Day 07 - Bag finder (file looping)
 Day 08 - Troubleshooting infinite boot loop
 Day 09 - XMAS encoded data
 Day 10 - Adapter stringing (tree navigation)
