@@ -71,12 +71,11 @@ for action in open(f):
     elif (movedir == "L" or movedir == "R"):
         direction = rotate_ship(movedir, direction, distance)
         movedir = direction
-        distance = 0
+        distance = 0  #don't want to move in this case
     
     pointer = change_pointer(movedir)
     position[x] += pointer[x]*distance
     position[y] += pointer[y]*distance
-    #print(position)
 
 answer = abs(position[x]) + abs(position[y])
 print("\nThe final position was %s and the answer is %s.\n" % (position, answer))
