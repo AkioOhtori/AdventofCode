@@ -1,3 +1,6 @@
+import time
+start_time = time.time()
+
 # Parse input, stripping time and "x,"
 floc = "Day13\\13.txt"
 f = open(floc)
@@ -14,19 +17,26 @@ for bus in buses:
     z += 1
 print(test)
 bus = test
-#print(bus[-3])
+
 def modsearch(n, t):
     if ((t+bus[n][1])%(bus[n][0]) == 0): return 1
     else: return 0
 start = -7
-t = 100000000000000
+    
+#   100,000,000,000,000
+t = 0#1000000000000000
+
 x = start
-print(bus[start])
+tink = 1
+
 while x < (len(bus)+start):
     if modsearch(x, t):
         x+=1
+        tink *= bus[x][0]
     else:
         x = start
-        t+=1
+        t+= tink
 
 print(t)
+print("Execution took %s seconds\n" % (time.time() - start_time))
+#EOF
