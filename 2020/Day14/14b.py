@@ -41,25 +41,26 @@ for instruction in open(f):
         memdump.append(memaddr)#thisprobablywontwork(memaddr))
         #print(memdump)
         memdump_new = []
-        '''
+        
         while loop > 0:
             memdump_new.clear()
             for mem in memdump:
                 memdump_new.extend(thisprobablywontwork(mem))
             memdump.clear()
             memdump = memdump_new.copy()
-            loop += -1'''
-        for addr in memdump: memory[addr] = operation
+            loop += -1
+        for addr in memdump:
+            a = int(addr, 2)
+            memory[a] = operation
 
 #print("\n")
 print(len(memory))
 total = 0
 
 
-for addr in memory:
-    n = addr.count(dontcare)
-    print(n)
-    total += int(memory[addr])**n
-#for value in memory: total += int(memory[value]) #Loop through and add up memory
+# for addr in memory:
+#     n = addr.count(dontcare)
+#     total += int(memory[addr])**n
+for value in memory: total += int(memory[value]) #Loop through and add up memory
 
 print("\nThe sum of the memory is %s, which took %s seconds to compute.\n" % (total, ((time.time() - start_time))))
