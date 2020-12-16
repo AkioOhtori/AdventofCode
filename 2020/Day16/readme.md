@@ -1,5 +1,7 @@
-https://adventofcode.com/2020/day/16
---- Day 16: Ticket Translation ---
+https://adventofcode.com/2020/day/16\
+\
+--- Day 16: Ticket Translation ---\
+\
 As you're walking to yet another connecting flight, you realize that one of the legs of your re-routed trip coming up is on a high-speed train. However, the train ticket you were given is in a language you don't understand. You should probably figure out what it says before you get to the train station after the next flight.
 
 Unfortunately, you can't actually read the words on the ticket. You can, however, read the numbers, and so you figure out the fields these tickets must have and the valid ranges for values in those fields.
@@ -9,13 +11,13 @@ You collect the rules for ticket fields, the numbers on your ticket, and the num
 The rules for ticket fields specify a list of fields that exist somewhere on the ticket and the valid ranges of values for each field. For example, a rule like class: 1-3 or 5-7 means that one of the fields in every ticket is named class and can be any value in the ranges 1-3 or 5-7 (inclusive, such that 3 and 5 are both valid in this field, but 4 is not).
 
 Each ticket is represented by a single line of comma-separated values. The values are the numbers on the ticket in the order they appear; every ticket has the same format. For example, consider this ticket:
-
-.--------------------------------------------------------.
-| ????: 101    ?????: 102   ??????????: 103     ???: 104 |
-|                                                        |
-| ??: 301  ??: 302             ???????: 303      ??????? |
-| ??: 401  ??: 402           ???? ????: 403    ????????? |
-'--------------------------------------------------------'
+\
+.--------------------------------------------------------.\
+| ????: 101    ?????: 102   ??????????: 103     ???: 104 |\
+|                                                        |\
+| ??: 301  ??: 302             ???????: 303      ??????? |\
+| ??: 401  ??: 402           ???? ????: 403    ????????? |\
+'--------------------------------------------------------'\
 Here, ? represents text in a language you don't understand. This ticket might be represented as 101,102,103,104,301,302,303,401,402,403; of course, the actual train tickets you're looking at are much more complicated. In any case, you've extracted just the numbers in such a way that the first number is always the same specific field, the second number is always a different specific field, and so on - you just don't know what each position actually means!
 
 Start by determining which tickets are completely invalid; these are tickets that contain values which aren't valid for any field. Ignore your ticket for now.
