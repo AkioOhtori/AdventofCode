@@ -1,3 +1,6 @@
+import time
+start_time = time.time()
+
 fields = dict()
 valid = set()
 myticket = []
@@ -70,9 +73,9 @@ for name in fields: fieldnames.append(name)
 
 #Need a fields x positions matrix of 1s
 test = [1] * len(myticket)
-test2 = []
+solutionmatrix = [] #really need a better name for this, but it was "test2" so...
 for x in range(len(fields)):
-    test2.append(test.copy()) #ARG FUCKING COPY PYTHON GARBAGE
+    solutionmatrix.append(test.copy()) #ARG FUCKING COPY PYTHON GARBAGE
 
 #Should in initialized at this point.  Now what!?
 #The next line we read will be the next list of fields on a ticket
@@ -85,39 +88,33 @@ while 1:
             invalidcrt += ticket[position] #part 1 answer things
             break #stop evaluating this ticket
         else: #otherwise number is valid for SOME field
-            for name in range(len(fieldnames)): #is number if valid for a given field 
-                if ticket[position] not in fields[fieldnames[name]]: test2[position][name] *= 0
-                #else: test2[position][x] *= 1 #which is trivial
+            for name in range(len(fieldnames)): #is number if valid for a given field cool, if not make it 0
+                if ticket[position] not in fields[fieldnames[name]]: solutionmatrix[position][name] *= 0
+                #else: solutionmatrix[position][x] *= 1 #which is trivial
 
-#OK now we have a matrix of valid answers. This is where things kinda go to shit
-#test2[position][field]!
+#OK now we have a matrix of valid answers. 
+#This is where things kinda go to shit
+#solutionmatrix[position][field]!
 answers = dict()
 unsolved = 999
 while unsolved > 0:
-    unsolved = 0 
-    for position in range(len(test2)):
-        ok = test2[position].count(1)
-        if ok == 1:
-            #find the postion and overrite it for all others?  yes, this is dumb and messy
-            field = test2[position].index(1)
-            for y in range(len(test2)): test2[y][field] = 0
-            test2[position][field] = 1
-            answers[fieldnames[field]] = position
-            #record this answer somehow?
+    unsolved = 0 #HEY WE'RE DONE! Oh wait... just initializing for loop
+    for position in range(len(solutionmatrix)):
+        ok = solutionmatrix[position].count(1)
+        if ok == 1: #If this position is solved, fine, overwrite, and store answer
+            #yes, this is dumb and messy and I don't care for it ONE BIT
+            field = solutionmatrix[position].index(1)
+            for y in range(len(solutionmatrix)): solutionmatrix[y][field] = 0
+            answers[fieldnames[field]] = position #This will make no sense tomorrow
+        elif ok == 0: pass
         else: unsolved += 1
 
-# print(test2)
-a = 1
-print(answers)
+a = 1 #initialize answer
 for x in answers:
-    if "departure" in x:
-        print(x)
-        print(answers[x])
-        print(myticket[answers[x]])
-        a *= myticket[answers[x]]
-# print(unsolved)
+    if "departure" in x: #find departure fields, as per problem statement
+        a *= myticket[answers[x]] #multiply them together, as per problem statement
 
-print("\nThe sum of the invalid fields was %s!\n" % invalidcrt)
-print(a)
+print("\nThe answer to part one, the sum of the invalid fields, was %s!" % invalidcrt)
+print("The answer for part two is %s, which took %s to compute.\n" % (a, ("%.5f" % (time.time() - start_time))))
 f.close()
 #EOF
