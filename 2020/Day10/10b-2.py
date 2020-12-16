@@ -25,8 +25,8 @@ for x in range(len(adapters)):
     y = ways_to[adapters[x]]
     #print("Adapter " + str(adapters[x]) + ", dict: " + str(ways_to[adapters[x]]))
     for n in range(1,4):
-        if (x + n) <= end:
-            if (adapters[x] - adapters[x+n]) <= 3:
+        if (x + n) <= end: #if we're near the ned of the list, stop
+            if (adapters[x] - adapters[x+n]) <= 3: #if we're within 3j
                 ways_to[adapters[x+n]] += y
 
 
