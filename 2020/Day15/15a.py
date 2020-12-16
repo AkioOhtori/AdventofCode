@@ -4,21 +4,22 @@ f = open(floc)
 i = (f.readline().strip().split(","))
 f.close()
 
+#set up variables
 game = dict()
 last = 0
 turn = 1
 say = 0
 end = 2020
-temp = 0
 
+#Seed with initial values
 for n in i:
     game[int(n)] = [0, turn]
     last = int(n)
     turn += 1
-    print(game[last])
-print(game)
 
+#Play the game
 while turn <= end:
+    #check if this has been said only once
     if game[last][0] == 0: say = (turn - game[last][1] -1)
     else: say = game[last][1] - game[last][0]
     last = say
@@ -26,7 +27,6 @@ while turn <= end:
 
     del game[say][0] #remove oldest turn
     game[say].append(turn) #add in this one
-    #print(say)
     turn += 1 #next!
 
 print("\nThe %sth number said was %s!\n" % (end,say))
