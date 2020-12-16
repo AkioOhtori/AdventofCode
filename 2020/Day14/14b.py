@@ -6,19 +6,6 @@ memory = dict() #What could possibly go wrong!?
 dontcare = "X"
 f = "Day14\\14.txt"
 
-#Slices string to insert new character (you can't do this like a list because python!?)
-def string_rep(s, r, a):
-    snew = s[:a] + r + s[1+a:]
-    return snew
-
-def thisprobablywontwork(m):
-    dump = []
-    for x in range(len(m)):
-        if m[x] == dontcare:
-            dump.append(string_rep(m, "0", x))
-            dump.append(string_rep(m, "1", x))
-    return dump
-
 for instruction in open(f):
     instruction = instruction.strip()
     eq = instruction.find("=") +2
@@ -31,36 +18,21 @@ for instruction in open(f):
         memaddr = format(int(instruction[membeg:memend]), binstyle) #isolate and format memory address
         operation = int(instruction[eq:])
 
+        newmem = [""] #container for memory updates
         for p in range(len(mask)): #Loop through operation, memory, and mask
-            if mask[p] == dontcare: memaddr = string_rep(memaddr, dontcare, p)
-            elif mask[p] == "1": memaddr = string_rep(memaddr, "1", p)
-            #else: memaddr remains unchanged
-        memdump = []
-        loop = memaddr.count(dontcare)
-        #print(loop)
-        memdump.append(memaddr)#thisprobablywontwork(memaddr))
-        #print(memdump)
-        memdump_new = []
-        
-        while loop > 0:
-            memdump_new.clear()
-            for mem in memdump:
-                memdump_new.extend(thisprobablywontwork(mem))
-            memdump.clear()
-            memdump = memdump_new.copy()
-            loop += -1
-        for addr in memdump:
-            a = int(addr, 2)
-            memory[a] = operation
+            if mask[p] == dontcare: #need to add new to the string PLUS make a new set
+                z = len(newmem) #since length will change, need to store existing length
+                for x in range(0,z): #Iterate over OG list
+                    newmem.append(newmem[x]+"1") #Add the new line first
+                    newmem[x] += "0" #then continue with old
+            elif mask[p] == "1":
+                for x in range(len(newmem)): newmem[x] += "1" #cat 1 to every member of the list
+            else: 
+                for x in range(len(newmem)): newmem[x] += memaddr[p] #cat addr to every
 
-#print("\n")
-print(len(memory))
+        for x in newmem: memory[int(x,2)] = operation #update memory
+
 total = 0
-
-
-# for addr in memory:
-#     n = addr.count(dontcare)
-#     total += int(memory[addr])**n
 for value in memory: total += int(memory[value]) #Loop through and add up memory
 
-print("\nThe sum of the memory is %s, which took %s seconds to compute.\n" % (total, ((time.time() - start_time))))
+print("\nThe sum of %s memory items is %s, which took %s seconds to compute.\n" % (len(memory), total, ("%.5f" % (time.time() - start_time))))
