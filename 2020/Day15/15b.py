@@ -1,3 +1,6 @@
+import time
+start_time = time.time()
+
 #Input processing and setup. Yes, there is probably a better way to do this
 floc = "Day15\\15.txt"
 f = open(floc)
@@ -29,4 +32,4 @@ while turn <= end:
     game[say].append(turn) #add in this one
     turn += 1 #next!
 
-print("\nThe %sth number said was %s!\n" % (end,say))
+print("\nThe %sth number said was %s! That took %s seconds to compute.\n" % (end,say, (("%.1f" % (time.time() - start_time)))))

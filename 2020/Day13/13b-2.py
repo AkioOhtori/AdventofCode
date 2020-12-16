@@ -13,7 +13,9 @@ increment = 1
 
 for bus in buses:
     while result % bus[0] != bus[1]:
+        print("Tried %s %% bus %s but which was %s not %s. Increasing by %s." % (result, bus[0], (result % bus[0]), bus[1], increment))
         result += increment
     increment *= bus[0]
+    print("Success! New increment is %s." % increment)
 
 print(result)
