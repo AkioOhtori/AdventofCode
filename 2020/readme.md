@@ -16,3 +16,4 @@ Day 13 - The worst thing every, regarding busses (DID NOT SOLVE PT2, but got clo
 Day 14 - Masks and memories\
 Day 15 - Elf memory game\
 Day 16 - Text and Ticket validation with matricies and sets\
+Day 17 - Initinte 3D Cube\
