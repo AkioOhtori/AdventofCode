@@ -147,14 +147,14 @@ cycle_count = 1
 print((checkadjacent_3d(oldmatrix, 2, 2, 1)))
 
 
-'''
+
 while cycle_count < cycle_end:
     matrix = changematrix_3d(oldmatrix).copy()
     oldmatrix = growmatrix(matrix).copy()
     #oldmatrix = matrix.copy()
     cycle_count += 1
     print("Matrix for cycle %s is %sx, %sy, %sz and has %s 1s" % (cycle_count, len(oldmatrix[0][0]), len(oldmatrix[0]), len(oldmatrix), count_the_ones(oldmatrix)))
-#print(matrix)'''
+#print(matrix)
 
 answer = 0
 
