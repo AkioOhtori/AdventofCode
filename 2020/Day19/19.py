@@ -3,58 +3,49 @@ f = open("Day19\\19.txt")
 
 rules = dict()
 
+#If a rule contains an or, split it into two new rules and check them
 def dealwithor(rl, l, i):
     loc_or = rl.index("|")
+    #split the rules into two
     a = rl[:loc_or]
     b = rl[loc_or+1:]
-    or1 = "or"+str(random.randrange(1,999999))+"a"
+    or1 = "or"+str(random.randrange(1,999999))+"a" #this may not be needed anymore
     or2 = "or"+str(random.randrange(1,999999))+"b"
     rules[or1] = a
     rules[or2] = b
     inew = checkrule(or1, l, i)
-    if inew == 0:
+    if inew == 0: #If the first one fails, try the next
         inew = checkrule(or2, l, i)
-        if inew == 0:
-            return 0
-        else: return inew
-    else:
-        return inew
+        if inew == 0:  return 0 #fail
+        else: return inew #If succeed, return the new index
+    else: return inew #If succeed, return the new index
 
-
-
+#This is a house of cards... possibly literally
 def checkrule(r, l, i):
-    #print("Checking rule %s with index %s" % (r,i))
-    rule_list = rules[r]
-    if rule_list.count("|"):
-        inew = dealwithor(rule_list, l, i)
+    #If the rule contains an or treat it differently
+    if rules[r].count("|"):
+        inew = dealwithor(rules[r], l, i)
         if inew == 0: return 0
         else: i = inew
     else:
-        for rule in rule_list:
+        #Check if we've reached an end state (a or b) or need to go deeper
+        for rule in rules[r]:
             if rule == "a":
                 if l[i] == "a":
                     i += 1
-                else:
-                    #print("Failed at index %s on rule %s" % (i, r))
-                    return 0
+                else: return 0
             elif rule == "b":
                 if l[i] == "b":
                     i += 1
-                else:
-                    #print("Failed at index %s on rule %s" % (i, r))
-                    return 0
+                else: return 0
             else:
                 inew = checkrule(rule, l, i)
-                if inew == 0:
-                    #print("Failed at index %s on rule %s" % (i, r))
-                    return 0
+                if inew == 0: return 0
                 else: i = inew
-    return i
+    return i #If succeed, return the new index
             
 
-    
-
-#Extract Rules
+#Preface: Extract Rules and store in a dict
 while 1:
     line = f.readline().strip()
     if line != "":
@@ -70,11 +61,7 @@ answer = 0
 while 1: #main loop!
     line = f.readline().strip()
     if not line: break #make sure there is a empty line at end of input file
-    # print(line)
     inew = checkrule("0", line, 0)
     if inew != 0 and inew == len(line):
-        #print("%s GOOD. Index %s" % (line, inew))
         answer += 1
-    #break
-    # else: print(line)
 print(answer)
