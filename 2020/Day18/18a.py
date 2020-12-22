@@ -36,7 +36,7 @@ def domath(l):
         a = int(n1) + int(n2)
         print("Did %s + %s and returned %s with index %s" % (n1, n2, a, index))
 
-    return [index+1, a]
+    return [index, a]
 
 
 total = 0
