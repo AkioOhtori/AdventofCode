@@ -1,17 +1,11 @@
-def findparens(l,s):
-    return
-
 def domath(l):
     index = 0
     done = 0
-    a = 0
-    # global index
-    
+    a = 0    
     while not done:
         n1 = a
         op = ""
         n2 = 0
-        
         while not n2:
             if l[index] == "*" or l[index] == "+":
                 op = l[index]
@@ -45,9 +39,6 @@ def domath(l):
             # print("Did %s + %s and returned %s with index %s" % (n1, n2, a, index))
         if index >= len(l):
             return(index,a)
-
-    # return [index, a]
-
 
 total = 0
 for line in open("Day18\\18.txt"):
