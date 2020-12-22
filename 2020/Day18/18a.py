@@ -1,9 +1,9 @@
 def findparens(l,s):
     return
 
-def domath(n1, l):
+def domath(l):
     index = 0
-    s2 = ""
+    n1 = 0
     op = ""
     n2 = 0
     a = 0
@@ -14,7 +14,7 @@ def domath(n1, l):
         elif l[index] == "(":
             index += 1
             ret = []
-            ret = (domath(0,l[index:]))
+            ret = (domath(l[index:]))
             index += ret[0]
             if op == "": n1 = ret[1]
             else:
@@ -24,8 +24,8 @@ def domath(n1, l):
             index += 1
             return [index, n1]
         else:
-            s2 = l[index]
-            n2 = int(s2)
+            if n1: n2 = int(l[index])
+            else: n1 = int(l[index])
             index += 1
             break
 
@@ -55,7 +55,7 @@ for line in open("Day18\\18s.txt"):
     # if line[index+1] == "(": domath(line[index+2:])
     while index <= len(line)-1:
         ret = []
-        ret = (domath(0,line[index:]))
+        ret = (domath(line[index:]))
         index += ret[0]
         answer = ret[1]
     total += answer
