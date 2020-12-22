@@ -17,3 +17,5 @@ Day 14 - Masks and memories\
 Day 15 - Elf memory game\
 Day 16 - Text and Ticket validation with matricies and sets\
 Day 17 - Initinte 3D Cube\
+Day 18 - Funny math\
+Day 19 - Monster Messages
