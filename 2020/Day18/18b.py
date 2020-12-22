@@ -1,3 +1,5 @@
+
+#Takes in any list containing a + and resolves the first one
 def doPluslist(l):
     lnew = []
     s = l.index("+")
@@ -5,6 +7,7 @@ def doPluslist(l):
     lnew = l[:s-1] + [a] + l[s+2:]
     return lnew
 
+#Takes in any list containing a * and resolves the first one
 def doMultlist(l):
     lnew = []
     s = l.index("*")
@@ -12,7 +15,8 @@ def doMultlist(l):
     lnew = l[:s-1] + [a] + l[s+2:]
     return lnew
 
-
+#Takes in any list containing an expression in parens
+#resolves the innermost parens and returns a new list
 def doParenslist(l):
     lnew = []
     e1 = l.index(")")
@@ -22,41 +26,12 @@ def doParenslist(l):
             break
         else: s1 += -1
     lnew = l[s1+1:e1]
-    # print(lnew)
+    # Completely resolve all math in the parens
     while lnew.count("+"): lnew = doPluslist(lnew)
     while lnew.count("*"): lnew = doMultlist(lnew)
     
     lnew =l[:s1] + lnew + l[e1+1:]
-    # print(lnew)
-    return lnew#[lnew, s1, e1]
-
-def doPlus(l):
-    
-    s1 = l.find("+")
-    n1 = ""#l[s1-i]
-    n2 = ""#l[s1+i]
-    i1 = 1
-    try:
-        while l[s1-i1].isnumeric and (s1-i1) >= 0:
-            n1 = l[(s1-i1)] + n1
-            i1 += 1
-    except:
-        pass
-    print("n1 is %s" % n1)
-    i2 = 1
-    test = l[s1+i2].copy()
-    while (s1+i2) < len(l):
-        if test.isdecimal:
-            n2 = n2 + l[s1+i2]
-            i2 += 1
-            test = l[s1+i2].copy()
-        else:
-            break
-    print("n2 is %s" % n2)
-    a = 0
-    a = int(n1.strip()) + int(n2.strip())
-    
-    lnew = l[:s1-i1] + str(a) + l[s1+i2:]
+    #return the list with the a paren resolved to a number
     return lnew
 
 total = 0
@@ -66,9 +41,10 @@ for line in open("Day18\\18.txt"):
     llist = []
     for n in line: llist.append(n)
 
+    #resolve all parens, then addition, then multiplication
     while llist.count("("): llist = doParenslist(llist)
     while llist.count("+"): llist = doPluslist(llist)
     while llist.count("*"): llist = doMultlist(llist)
     total += int(llist[0])
-    print(llist[0])
-print(total)
+print("\nThe sum of all the math problems is %s\n" % total)
+#EOF
