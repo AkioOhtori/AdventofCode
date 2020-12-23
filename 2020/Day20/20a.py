@@ -36,13 +36,13 @@ for line in open(fname):
 def checkfour(m1, m2, tile, side):
     if tile == other: return
     if np.array_equal(m1[0], m2[0]): #Top to top
-        tile_sides[tile][side] = int(other)
+        tile_sides[tile][side] +=1
     if np.array_equal(m1[0], m2[-1]): #top to bottom
-        tile_sides[tile][side] = int(other)
+        tile_sides[tile][side] +=1
     if np.array_equal(m1[-1], m2[0]): #Bottom to top
-        tile_sides[tile][side+1] = int(other)
+        tile_sides[tile][side+1] +=1
     if np.array_equal(m1[-1], m2[-1]): #Bottom to bottom
-        tile_sides[tile][side+1] = int(other)
+        tile_sides[tile][side+1] +=1
 
 #Yes, there are better ways to do this but heh
 for tile in tiles:

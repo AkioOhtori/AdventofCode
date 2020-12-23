@@ -63,5 +63,6 @@ answer = 1
 for tile in tiles:
     if (np.count_nonzero(tile_sides[tile])) == 2:
         answer *= int(tile)
+        print(tile, tile_sides[tile])
 
 print("The answer is %s and it took %s seconds to compute!" % (answer, ("%.2f" % (time.time() - start_time))))
