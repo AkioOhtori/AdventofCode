@@ -1,4 +1,6 @@
 import random
+import time
+start_time = time.time()
 f = open("Day19\\19.txt")
 
 rules = dict()
@@ -29,7 +31,7 @@ def dealwithor(rl, l, i):
 def checkrule(r, l, i):
     #If the rule contains an or treat it differently
     if i >= len(l):
-        print("We got to the bad place. i=%s, r=%s and l=%s" % (i,r,len(l)))
+        #print("We got to the bad place. i=%s, r=%s and l=%s" % (i,r,len(l)))
         return i
     if rules[r].count("|"):
         inew = dealwithor(rules[r], l, i)
@@ -77,5 +79,6 @@ while 1: #main loop!
     inew = checkrule("0", line, 0)
     if inew != 0 and inew == len(line):
         answer += 1
-        print(line)
+        #print(line)
 print(answer)
+print(("%.4f" % (time.time() - start_time)))
