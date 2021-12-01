@@ -28,16 +28,18 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 
-	var txtlines []string
+	//initialize output variable
+	var count int = 0
+
+	//OLD WAY
+	/*var txtlines []string
 
 	// split lines into array/slice
 	for scanner.Scan() {
 		txtlines = append(txtlines, scanner.Text())
 	}
 	defer file.Close()
-
-	//initialize output variable
-	var count int = 0
+	*/
 
 	/* Day 1 Part 1
 
@@ -59,32 +61,65 @@ func main() {
 	}
 	*/
 
-	//Day 1 Part 2
-
+	//Day 1 Part 2 OLD WAY
 	//We start with the first three values, so need to get those queued
-	a, _ := strconv.Atoi(txtlines[0])
-	b, _ := strconv.Atoi(txtlines[1])
-	c, _ := strconv.Atoi(txtlines[2])
+	//I'm sure this can be done programatically but... why?
 
-	//Iterate over the remaining values
-	for i := 3; i < len(txtlines); i++ {
-		d, err := strconv.Atoi(txtlines[i])
-		if isError(err) {
-			break
+	//a, _ := strconv.Atoi(txtlines[0])
+	//b, _ := strconv.Atoi(txtlines[1])
+	//c, _ := strconv.Atoi(txtlines[2])
+
+	/*
+		//Iterate over the remaining values
+		for i := 3; i < len(txtlines); i++ {
+			d, err := strconv.Atoi(txtlines[i])
+			if isError(err) {
+				break
+			}
+			windowa := a + b + c
+			windowb := b + c + d
+
+			//Check to see if the height has decreased (which is what we want)
+			if windowb > windowa {
+				count++
+				fmt.Printf("%v is greater than %v! Count = %v\n", windowb, windowa, count)
+			}
+
+			//Slide the window for next iteration
+			a = b
+			b = c
+			c = d
+		}*/
+
+	//NEW WAY
+	//Initialize variables (might not be needed?)
+	var a int = 0
+	var b int = 0
+	var c int = 0
+
+	for scanner.Scan() {
+		if c != 0 { //check to see if we have a full window, if so, proceed
+			d, err := strconv.Atoi(scanner.Text())
+			if isError(err) {
+				break
+			}
+			windowa := a + b + c
+			windowb := b + c + d
+			if windowb > windowa {
+				count++
+				//fmt.Printf("%v is greater than %v! Count = %v\n", windowb, windowa, count)
+			}
+			a = b
+			b = c
+			c = d
+		} else if a == 0 {
+			a, _ = strconv.Atoi(scanner.Text())
+		} else if b == 0 {
+			b, _ = strconv.Atoi(scanner.Text())
+		} else if c == 0 {
+			c, _ = strconv.Atoi(scanner.Text())
 		}
-		windowa := a + b + c
-		windowb := b + c + d
 
-		//Check to see if the height has decreased (which is what we want)
-		if windowb > windowa {
-			count++
-			fmt.Printf("%v is greater than %v! Count = %v\n", windowb, windowa, count)
-		}
-
-		//Slide the window for next iteration
-		a = b
-		b = c
-		c = d
 	}
 
 	// And we're done!
