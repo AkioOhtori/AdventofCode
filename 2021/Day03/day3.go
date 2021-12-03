@@ -32,12 +32,13 @@ func checkDominant(master []string, i int, mode bool) []string {
 	// Iterates over the length of the dataset (1000 to start)
 	// Requires the location of the examined bit (i)
 	for x := 0; x < len(master); x++ {
-		if master[x][i:i+1] == one {
+		if master[x][i:i+1] == one { //if bit is 1, store it in the 1s slice
 			new_one = append(new_one, master[x])
-		} else {
+		} else { //otherwise store it in the 0s slice
 			new_zero = append(new_zero, master[x])
 		}
 	}
+	// Checking Oxygen Rules
 	if mode {
 		if len(new_one) >= len(new_zero) {
 			master = new_one
@@ -45,14 +46,24 @@ func checkDominant(master []string, i int, mode bool) []string {
 			master = new_zero
 		}
 
-	} else {
+	} else { // Checking CO2 Rules
 		if len(new_zero) > len(new_one) {
 			master = new_one
 		} else {
 			master = new_zero
 		}
-	}
+	} //I feel like there is a way to do this without the conditions but heh
 	return master
+}
+
+func checkBits(z []string, mode bool) []string {
+	for i := 0; i < len(z[0]); i++ {
+		if len(z) == 1 {
+			break
+		}
+		z = checkDominant(z, i, mode)
+	}
+	return z
 }
 
 func main() {
@@ -70,6 +81,7 @@ func main() {
 
 	// PART 1
 	if PART == 1 {
+		// Check to see how many 1s
 		for scanner.Scan() {
 			length++
 			txt := (scanner.Text())
@@ -100,66 +112,28 @@ func main() {
 		gamma_dec, _ := strconv.ParseInt(gamma, 2, 64)
 		epsilon_dec, _ := strconv.ParseInt(epsilon, 2, 64)
 
-		// And we're done!
+		// And we're done with part 1!
 		fmt.Printf("\nI think we're finished and the gamma is %v and epsilon is %v.\n", gamma, epsilon)
 		fmt.Printf("The answer is %v!", gamma_dec*epsilon_dec)
+		// BEGIN PART 2
 	} else {
 		var master []string
-		var ox []string
-		var cO2 []string
 
+		// Load all of the input into memory (master)
 		for scanner.Scan() {
 			master = append(master, scanner.Text())
 		}
-		cO2 = master
-		ox = master
 
-		for i := 0; i < len(ox[0]); i++ {
-			if len(ox) == 1 {
-				// fmt.Println("I think we're done?!")
-				// fmt.Print(ox)
-				break
-			}
-			ox = checkDominant(ox, i, OXYGEN)
-		}
-		for i := 0; i < len(cO2[0]); i++ {
-			if len(cO2) == 1 {
-				// fmt.Println("I think we're done?!")
-				// fmt.Print(cO2)
-				break
-			}
-			cO2 = checkDominant(cO2, i, C02)
-		}
+		ox := checkBits(master, OXYGEN)
+		cO2 := checkBits(master, C02)
 
-		fmt.Println(ox, cO2)
+		// Convert binary string to decimal int
 		ox_dec, _ := strconv.ParseInt(ox[0], 2, 64)
 		cO2_dec, _ := strconv.ParseInt(cO2[0], 2, 64)
+
+		// Print the answer
 		fmt.Printf("I think we're finished and the oxygen is %v and CO2 is %v.\n", ox_dec, cO2_dec)
 		fmt.Printf("The answer is %v!", ox_dec*cO2_dec)
-
-		/*
-			for i := 0; i < len(master[0]); i++ {
-				if len(master) == 1 {
-					fmt.Println("I think we're done?!")
-					fmt.Print(master)
-					break
-				} //else
-				for x := 0; x < len(master); x++ {
-					if master[x][i:i+1] == one {
-						new_one = append(new_one, master[x])
-					} else {
-						new_zero = append(new_zero, master[x])
-					}
-				}
-				if len(new_one) >= (len(master) / 2) {
-					master = new_one
-				} else {
-					master = new_zero
-				}
-				new_one = nil
-				new_zero = nil
-			}*/
-
 	}
 
 }
