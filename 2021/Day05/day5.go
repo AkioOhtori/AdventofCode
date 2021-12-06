@@ -73,8 +73,12 @@ func main() {
 			dir[x] = convTxtSlicetoInt(directions)
 
 			//if it goes the wrong direction, flip it
-			if dir[x][X1] > dir[x][X2] || dir[x][Y1] > dir[x][Y2] {
-				temp := []int{dir[x][X2], dir[x][Y2], dir[x][X1], dir[x][Y1]}
+			if dir[x][X1] > dir[x][X2] {
+				temp := []int{dir[x][X2], dir[x][Y1], dir[x][X1], dir[x][Y2]}
+				copy(dir[x], temp)
+			}
+			if dir[x][Y1] > dir[x][Y2] {
+				temp := []int{dir[x][X1], dir[x][Y2], dir[x][X2], dir[x][Y1]}
 				copy(dir[x], temp)
 			}
 
