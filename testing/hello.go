@@ -1,40 +1,16 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strconv"
 )
 
-var path = "test.txt"
-
-func isError(err error) bool {
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	return (err != nil)
-}
-
 func main() {
-	fmt.Println("Hello World!")
-	var file, err = os.Open(path)
-	if isError(err) {
-		return
-	}
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
+	var m1 = [2]int{1, 2}
+	var m2 = [2]int{3, 4}
+	// var mm [][]int
+	mm := make([][]int, 0, 100)
 
-	var txtlines []string
-
-	for scanner.Scan() {
-		txtlines = append(txtlines, scanner.Text())
-	}
-
-	fmt.Println(txtlines)
-	//var a int = 0
-	a, err := strconv.Atoi(txtlines[0])
-	fmt.Println(a, err)
-
-	defer file.Close()
+	mm[0] = m1[:] // append(mm, m1)
+	mm[1] = m2[:] // append(mm, m2)
+	fmt.Print(mm)
 }
