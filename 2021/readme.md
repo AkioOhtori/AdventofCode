@@ -11,6 +11,7 @@
 Summary and other unimportant information
 
 Day 01 - Go - Depth finder wherein we see if numbers are larger than the previous (File, slice/matrix math, string conversion, loops)
-Day 02 - 
+Day 02 - Go - Direction for moving the sub about (string parsing, loops, file reading)
+Day 03 - Go - Binary but not really (binary, strings, loops)
 
 ```
