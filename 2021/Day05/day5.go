@@ -69,32 +69,34 @@ func main() {
 	for scanner.Scan() {
 		line := strings.Fields(scanner.Text())
 		directions := append(strings.Split(line[0], ","), strings.Split(line[2], ",")...)
-		if directions[X1] == directions[X2] || directions[Y1] == directions[Y2] {
-			dir[x] = convTxtSlicetoInt(directions)
+		dir[x] = convTxtSlicetoInt(directions)
 
-			//if it goes the wrong direction, flip it
-			if dir[x][X1] > dir[x][X2] {
-				temp := []int{dir[x][X2], dir[x][Y1], dir[x][X1], dir[x][Y2]}
-				copy(dir[x], temp)
-			}
-			if dir[x][Y1] > dir[x][Y2] {
-				temp := []int{dir[x][X1], dir[x][Y2], dir[x][X2], dir[x][Y1]}
-				copy(dir[x], temp)
-			}
+		//If it goes the wrong direction, flip it
+		//Doing Y first means X1 will ALWAYS be greater than Y1 and we need that
+		if dir[x][Y1] > dir[x][Y2] {
+			temp := []int{dir[x][X2], dir[x][Y2], dir[x][X1], dir[x][Y1]}
+			copy(dir[x], temp)
+		}
+		if dir[x][X1] > dir[x][X2] {
+			temp := []int{dir[x][X2], dir[x][Y2], dir[x][X1], dir[x][Y1]}
+			copy(dir[x], temp)
+		}
 
-			//used for determining the size of the matrix
-			if dir[x][X1] > max_x {
-				max_x = dir[x][X1]
-			} else if dir[x][X2] > max_x {
-				max_x = dir[x][X2]
-			}
-			if dir[x][Y1] > max_y {
-				max_y = dir[x][Y1]
-			} else if dir[x][Y2] > max_y {
-				max_y = dir[x][Y2]
-			}
-			x++
-		} //this doesn't actually do anything?
+		//used for determining the size of the matrix
+		if dir[x][X1] > max_x {
+			max_x = dir[x][X1]
+		}
+		if dir[x][X2] > max_x {
+			max_x = dir[x][X2]
+		}
+		if dir[x][Y1] > max_y {
+			max_y = dir[x][Y1]
+		}
+		if dir[x][Y2] > max_y {
+			max_y = dir[x][Y2]
+		}
+		x++
+		//this doesn't actually do anything?
 
 	}
 
@@ -114,20 +116,40 @@ func main() {
 		if len(xyxy) == 0 {
 			break
 		}
-		if xyxy[X1] != xyxy[X2] {
+		// Linear X Progression
+		if xyxy[Y1] == xyxy[Y2] {
 			for x := xyxy[X1]; x <= xyxy[X2]; x++ {
 				fields[xyxy[Y1]][x]++
 				if fields[xyxy[Y1]][x] == 2 {
 					overlap++
 				}
 			}
-		} else if xyxy[Y1] != xyxy[Y2] {
+			// Linear Y progression
+		} else if xyxy[X1] == xyxy[X2] {
 			for y := xyxy[Y1]; y <= xyxy[Y2]; y++ {
 				fields[y][xyxy[X1]]++
 				if fields[y][xyxy[X1]] == 2 {
 					overlap++
 				}
 			}
+			//Part 2 ONLY diag progression
+		} else if PART == 2 {
+			s := 1 //sign for decreasing Y
+			if xyxy[Y1] > xyxy[Y2] {
+				s = -1
+			}
+			// fmt.Printf("Doing a diag for %v with s=%v\n", xyxy, s)
+			for x := 0; x+xyxy[X1] <= xyxy[X2]; x++ {
+				xx := xyxy[X1] + x
+				yy := (x * s)
+				yy = xyxy[Y1] + yy
+
+				fields[yy][xx]++
+				if fields[yy][xx] == 2 {
+					overlap++
+				}
+			}
+
 		}
 	}
 	// prettyPrintMatrix2D(fields)
