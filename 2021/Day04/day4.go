@@ -181,15 +181,12 @@ func main() {
 									cards[card_no] = erase
 									break
 								}
-
-							}
-						}
-
+							} //end of winner checking
+						} //end of value checking
 					} //end col
 				} //end row
 			} //end cards
-		}
-		// And we're done with part 1!
-	}
+		} //end of input value checking
+	} //end of part 2
 
-}
+} //EOF
