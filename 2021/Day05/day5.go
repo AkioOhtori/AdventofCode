@@ -152,6 +152,9 @@ func main() {
 
 		}
 	}
-	// prettyPrintMatrix2D(fields)
+	if path == "sample.txt" {
+		prettyPrintMatrix2D(fields)
+	}
+
 	fmt.Printf("I think we have it and the overlap is %v!\n", overlap)
 }
