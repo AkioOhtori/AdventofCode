@@ -9,7 +9,7 @@ import (
 )
 
 var path = "input.txt" //path to problem input
-const PART int = 1
+const PART int = 2
 
 // Function to handle errors
 func isError(err error) bool {
@@ -49,8 +49,13 @@ func main() {
 		fishies[fish]++
 	}
 
+	time := 256
+	if PART == 1 {
+		time = 80
+	}
+
 	//Start makin' babies!
-	for day := 0; day < 80; day++ {
+	for day := 0; day < time; day++ {
 		cycle := day % 7
 		puberty := day % 9
 		fishies[cycle] += fry[puberty]
