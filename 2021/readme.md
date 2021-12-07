@@ -16,5 +16,5 @@ Day 03 - Go - Binary but not really (binary, strings, loops)
 Day 04 - Go - Bingo four nested for loops (3D arrays/slices, string parsing spaces comma)
 Day 05 - Go - Path masking (3D arrays, sadness, commas and spaces)
 Day 06 - Go - Fish breeding (modulus, commas)
-Day 07 - Go - Crabs in subs
+Day 07 - Go - Crabs in subs (average, median, abs)
 ```
