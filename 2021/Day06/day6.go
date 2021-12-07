@@ -8,13 +8,6 @@ import (
 	"strings"
 )
 
-/*
-Based on the puzzle input, seems like our best bet is to do some matrix math?
-First up though: Parsing the input - Medium
-Second: iterating though to create bit mask
-Third: don't fuck it up
-*/
-
 var path = "input.txt" //path to problem input
 const PART int = 1
 
