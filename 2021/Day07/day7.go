@@ -56,8 +56,8 @@ func main() {
 	} else {
 		for _, x := range input_flt {
 			y := math.Abs(avg - x)
-			fuel += (((y * y) + y) / 2)
+			fuel += (((y * y) + y) / 2) //triangle formula
 		}
 	}
-	fmt.Printf("The data was %v long with a median of %v and total fuel used was %v\n", len(input_flt), median, int(fuel))
+	fmt.Printf("The data was %v long with a median of %v average of %v and total fuel used was %v\n", len(input_flt), median, mean, int(fuel))
 }
