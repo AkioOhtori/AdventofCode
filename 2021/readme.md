@@ -11,7 +11,9 @@
 Summary and other unimportant information
 
 Day 01 - Go - Depth finder wherein we see if numbers are larger than the previous (File, slice/matrix math, string conversion, loops)
-Day 02 - Go - Direction for moving the sub about (string parsing, loops, file reading)
+Day 02 - Go - Direction for moving the sub about (string parsing spaces, loops, sequential file reading)
 Day 03 - Go - Binary but not really (binary, strings, loops)
-Day 04 - Go - Four nested for loops (3D arrays/slices, strings)
+Day 04 - Go - Four nested for loops (3D arrays/slices, string parsing spaces comma)
+Day 05 - Go - Path masking (3D arrays, sadness, commas and spaces)
+Day 06 - Go - Fish breeding 
 ```
