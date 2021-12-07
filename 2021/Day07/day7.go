@@ -33,10 +33,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 	var input_str []string
-	var input_int []int
 	var input_flt []float64
-	var maxx int
-	// var minn int = 9999
 
 	//Go through the instructions and make them usable
 	for scanner.Scan() {
@@ -44,17 +41,23 @@ func main() {
 	}
 	for _, x := range input_str {
 		tmp, _ := strconv.Atoi(x)
-		input_int = append(input_int, tmp)
 		input_flt = append(input_flt, float64(tmp))
-		if tmp > maxx {
-			maxx = tmp
-		}
 	}
+
+	// Add the fuel required to get to the median
 	var fuel float64 = 0
 	median, _ := stats.Median(input_flt)
-	fmt.Println(math.Abs(-1))
-	for _, x := range input_flt {
-		fuel += math.Abs(median - x)
+	mean, _ := stats.Mean(input_flt)
+	avg := math.Floor(mean)
+	if PART == 1 {
+		for _, x := range input_flt {
+			fuel += math.Abs(median - x)
+		}
+	} else {
+		for _, x := range input_flt {
+			y := math.Abs(avg - x)
+			fuel += (((y * y) + y) / 2)
+		}
 	}
-	fmt.Println(len(input_int), maxx, median, fuel)
+	fmt.Printf("The data was %v long with a median of %v and total fuel used was %v\n", len(input_flt), median, int(fuel))
 }
