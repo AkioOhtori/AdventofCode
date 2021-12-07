@@ -31,23 +31,25 @@ func main() {
 	scanner.Split(bufio.ScanLines)
 	var input_str []string
 	var input_int []int
+
 	//Go through the instructions and make them usable
 	for scanner.Scan() {
 		input_str = strings.Split(scanner.Text(), ",")
 	}
-
 	for _, x := range input_str {
 		tmp, _ := strconv.Atoi(x)
 		input_int = append(input_int, tmp)
 	}
 
-	var fishies [7]int
-	var fry [9]int
+	var fishies [7]int //where we store the old fish
+	var fry [9]int     //where we store the new fish
 
+	//Process the input file of already alive fishies ("old")
 	for _, fish := range input_int {
 		fishies[fish]++
 	}
 
+	//Start makin' babies!
 	for day := 0; day < 80; day++ {
 		cycle := day % 7
 		puberty := day % 9
@@ -55,6 +57,8 @@ func main() {
 		fry[puberty] = fishies[cycle]
 		// fmt.Printf("%v\t%v\t%v\t%v\n", day, fishies, fry, puberty)
 	}
+
+	//How many total fishies did we end up with?
 	var total int = 0
 	for _, fish := range fishies {
 		total += fish
@@ -63,5 +67,6 @@ func main() {
 		total += fish
 	}
 
+	//fin (lol)
 	fmt.Println(total)
 }
