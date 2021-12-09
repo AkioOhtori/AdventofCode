@@ -71,7 +71,7 @@ func main() {
 			}
 		}
 	}
-	//Thats it!  That was all of part 1
+	//Thats it!  That was all of part 1!
 	fmt.Printf("The answer to Part 1 is: %v\n", answer)
 	answer = 0
 
@@ -107,10 +107,10 @@ func main() {
 	|__/  \__/ \______/    |__/   |________/|__/
 
 	My solution to Part 2 is gross and I hate it.
-	I'm like... 80% sure this is the absolute WRONG way to solve this
-	but
-	alas
+	I'm like... 80% sure this is the absolute WRONG way to solve this.
+	but, alas
 	It is the solution that I have.
+	Do yourself a favor and look no further!
 	*/
 
 	//Iterate over the entire input file
