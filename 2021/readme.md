@@ -18,4 +18,5 @@ Day 05 - Go - Path masking (3D arrays, sadness, commas and spaces)
 Day 06 - Go - Fish breeding (modulus, commas)
 Day 07 - Go - Crabs in subs (average, median, abs)
 Day 08 - Go - Scrambled 7-segs (strings!!: sorting alphabetize size length subtraction)
+Day 09 - Go - Matrix exploring (sort int, bounds checking, coords)
 ```
