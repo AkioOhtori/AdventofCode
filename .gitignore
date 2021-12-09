@@ -1,2 +1,4 @@
 
 .vscode/launch.json
+.vscode/go.mod
+.vscode/go.sum
