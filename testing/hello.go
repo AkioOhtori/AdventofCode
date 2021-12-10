@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 func main() {
-	s1 := "ade"
-	s2 := "de"
-	fmt.Println(strings.ReplaceAll(s1, s2, ""))
+	x := []string{"a", "b", "c"}
+	fmt.Println(len(x))
+	x = append(x[1:])
+	fmt.Println(len(x))
+	fmt.Println((x))
 }
