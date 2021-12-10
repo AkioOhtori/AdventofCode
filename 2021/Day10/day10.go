@@ -58,7 +58,7 @@ func main() {
 					break out
 					// otherwise we're OK and just need to remove the corresponding opener
 				} else {
-					opens = append(opens[1:]) //remove the first element
+					opens = opens[1:] //remove the first element
 				}
 			}
 		}
