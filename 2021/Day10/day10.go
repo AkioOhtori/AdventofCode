@@ -46,7 +46,7 @@ func main() {
 		//evaluate each character in the string
 		for _, x := range input_str {
 			switch x {
-			//if it is an opener, add it to the lis
+			//if it is an opener, add it to the front of the list
 			case "(", "[", "<", "{":
 				opens = append([]string{x}, opens...)
 				//if it is a closer, check if it is correct
