@@ -63,10 +63,9 @@ func main() {
 			}
 		}
 
-		//If we completed with no errors, we need to calculate the score for that line
-		var score_pt2 int = 0
-		if !bad { //then we're done but incomplete
-			bad = false //reset the "bad" flag (Probably a better way to do this)
+		//If we completed w/o errors (bad == false) we need to calculate the score for that line
+		if !bad {
+			var score_pt2 int = 0
 			//There is no reason to calculate the corresponding closers, so we don't
 			for _, i := range opens {
 				score_pt2 = score_pt2*5 + points_pt2[i]
