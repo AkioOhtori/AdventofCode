@@ -49,7 +49,8 @@ func main() {
 			//if it is an opener, add it to the front of the list
 			case "(", "[", "<", "{":
 				opens = append([]string{x}, opens...)
-				//if it is a closer, check if it is correct
+
+			//if it is a closer, check if it is correct
 			case ")", "]", ">", "}":
 				//if the closer is NOT the opposite of the most recent open, it is bad
 				if opens[0] != match[x] {
