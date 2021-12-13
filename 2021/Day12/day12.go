@@ -14,6 +14,7 @@ const ORIGIN int = 0
 const DESTIN int = 1
 
 var answer [][]string
+var lowers []string
 
 // Function to handle errors
 func isError(err error) bool {
@@ -21,6 +22,12 @@ func isError(err error) bool {
 		fmt.Println(err.Error())
 	}
 	return (err != nil)
+}
+
+func prettyPrintMatrix(m [][]string) {
+	for _, x := range m {
+		fmt.Println(x)
+	}
 }
 
 func checkLower(p string) bool {
@@ -45,6 +52,34 @@ func checkFor(p []string, new string) bool {
 	return false
 }
 
+func checkDoubleFor(p []string, new string) bool {
+	// var double int = 0
+	// var exists bool = false
+	for _, l := range lowers {
+		var i int = 0
+		for _, x := range p {
+			if l == x {
+				// exists = true
+				i++
+				if i > 1 {
+					return true
+					// double++
+					// if x == new {
+					// 	return true
+					// } else if double > 1 {
+					// 	return true
+					// }
+				}
+			}
+		}
+		// if exists && double > 0 {
+		// 	return true
+		// }
+	}
+	// fmt.Printf("Did not find %v in p = %v\n", new, p)
+	return false
+}
+
 func traverseTree(tree [][]string, p []string, begin string) {
 	p = append(p, begin)
 
@@ -57,7 +92,11 @@ func traverseTree(tree [][]string, p []string, begin string) {
 				continue
 			} else if checkLower(branch[DESTIN]) {
 				if checkFor(p, branch[DESTIN]) {
-					continue
+					if PART == 1 {
+						continue
+					} else if checkDoubleFor(p, branch[DESTIN]) {
+						continue
+					}
 				}
 			}
 			// p = append(p, branch[DESTIN])
@@ -97,12 +136,20 @@ func main() {
 				input = append(input, []string{input_str[1], input_str[0]})
 			}
 		}
+
+		if PART == 2 {
+			if checkLower(input_str[0]) {
+				lowers = append(lowers, input_str[0])
+			}
+			if checkLower(input_str[1]) {
+				lowers = append(lowers, input_str[1])
+			}
+		}
 	}
-	var p []string
+
 	for _, start := range starts {
-		p = append(p, "start")
-		traverseTree(input, p, start[DESTIN])
+		traverseTree(input, []string{}, start[DESTIN])
 	}
-	// fmt.Println(answer)
-	fmt.Println(len(answer))
+	// prettyPrintMatrix(answer)
+	fmt.Printf("The answer to Part %v is %v \n", PART, len(answer))
 }
