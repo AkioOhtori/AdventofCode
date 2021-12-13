@@ -20,4 +20,6 @@ Day 07 - Go - Crabs in subs (average, median, abs)
 Day 08 - Go - Scrambled 7-segs (strings!!: sorting alphabetize size length subtraction)
 Day 09 - Go - Matrix exploring (sort int, bounds checking, coords)
 Day 10 - Go - Opening and closing brackets (sort, maps, switch)
+Day 11 - Go - More matrix exploring, but with diagonals (bounds checking)
+Day 12 - Go - Path finding (string parsing, map making)
 ```
