@@ -9,6 +9,7 @@ import (
 )
 
 var path = "input.txt" //path to problem input
+const PART int = 2
 
 // Function to handle errors
 func isError(err error) bool {
@@ -113,13 +114,10 @@ func main() {
 	*/
 	var answer_pt1 int = 0
 
-	prettyPrintSlice(input_int)
-	for iterations := 0; iterations < 100; iterations++ {
+	for iterations := 0; iterations < 10000; iterations++ {
 
 		// Step 1 - Increment all and record any flashes
 		tens := incrementOctopuses(input_int)
-		// fmt.Printf("*** Step %v ***\n", iterations+1)
-		// fmt.Printf("After inc, but before math: %v\n", tens)
 
 		// Step 2 - Increment everything around the flashes AND process new ones
 		for i := 0; i < len(tens); i++ {
@@ -130,11 +128,15 @@ func main() {
 		for _, flash := range tens {
 			input_int[flash[0]][flash[1]] = 0
 		}
-
-		// fmt.Printf("After math: %v\n", tens)
-		// prettyPrintSlice(input_int)
+		if len(tens) == 100 { //all octopi flashed
+			prettyPrintSlice(input_int)
+			fmt.Printf("The answer to Part 2 is step %v\n", iterations+1)
+			break
+		}
+		if iterations == 99 {
+			fmt.Printf("The answer to part 1, how many flashes after 100 cycles, is %v\n", answer_pt1)
+		}
 
 	}
-	fmt.Printf("The answer to part 1, how many flashes after 100 cycles, is %v\n", answer_pt1)
 
 }
