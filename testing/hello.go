@@ -2,25 +2,13 @@ package main
 
 import "fmt"
 
-func inc(sli []int, n int) []int {
-	sli = append(sli, n+1)
-	return sli
-}
-
 func main() {
-	x := []int{1, 2, 3}
+	x := []string{"a", "B", "cd", "AB"}
+	y := make([]string, len(x))
+	fmt.Println(x)
+	fmt.Println(y)
+	copy(y, x)
+	fmt.Println(x)
+	fmt.Println(y)
 
-	// for _, poop := range x {
-	// 	x = inc(x, poop)
-	// 	fmt.Println(x)
-	// }
-	moist := len(x)
-	for z := 0; z < len(x); z++ {
-		x = inc(x, 5)
-		moist = len(x)
-		fmt.Println(x)
-		if moist == 10 {
-			break
-		}
-	}
 }
