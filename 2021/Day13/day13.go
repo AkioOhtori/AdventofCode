@@ -75,7 +75,7 @@ func main() {
 	//create empty field of correct size
 	paper := make([][]int, max_y+1)
 	for i := 0; i < len(paper); i++ {
-		paper[i] = make([]int, max_x+1)
+		paper[i] = make([]int, max_x+2)
 	}
 	for _, dot := range input_int {
 		paper[dot[1]][dot[0]] = 1
@@ -87,7 +87,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf("The matrix is x = %v, y = %v with %v dots\n", max_x+1, max_y+1, count)
+	fmt.Printf("The matrix is x = %v, y = %v with %v dots\n", max_x+2, max_y+1, count)
 	// prettyPrintMatrix2D(paper)
 
 	for i := 0; i < 1; i++ {
