@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var path = "input.txt" //path to problem input
+var path = "inputG.txt" //path to problem input
 const PART int = 1
 
 // Function to handle errors
@@ -17,6 +17,23 @@ func isError(err error) bool {
 		fmt.Println(err.Error())
 	}
 	return (err != nil)
+}
+
+func prettyPrintMatrixLetters(m [][]int) {
+	fmt.Println()
+	for _, y := range m {
+		for i, x := range y {
+			if i%5 == 0 {
+				fmt.Printf("\t")
+			}
+			if x == 1 {
+				fmt.Print("#")
+			} else {
+				fmt.Print(" ")
+			}
+		}
+		fmt.Println()
+	}
 }
 
 func prettyPrintMatrix2D(m [][]int) {
@@ -75,25 +92,32 @@ func main() {
 	//create empty field of correct size
 	paper := make([][]int, max_y+1)
 	for i := 0; i < len(paper); i++ {
-		paper[i] = make([]int, max_x+2)
+		paper[i] = make([]int, max_x+1)
 	}
 	for _, dot := range input_int {
 		paper[dot[1]][dot[0]] = 1
 	}
-	count := 0
-	for _, y := range paper {
-		for _, x := range y {
-			count += x
-		}
-	}
+	// count := 0
+	// for _, y := range paper {
+	// 	for _, x := range y {
+	// 		count += x
+	// 	}
+	// }
 
-	fmt.Printf("The matrix is x = %v, y = %v with %v dots\n", max_x+2, max_y+1, count)
+	fmt.Printf("The matrix is x = %v, y = %v with %v dots\n", max_x+1, max_y+1, 0)
 	// prettyPrintMatrix2D(paper)
 
-	for i := 0; i < 1; i++ {
+	for i := 0; i < len(fold_instructions); i++ {
 		fmt.Println(fold_instructions[i])
 		if fold_instructions[i][0] == "y" {
+
 			along, _ := strconv.Atoi(fold_instructions[i][1])
+			// modifier := 0
+			// if (len(paper) % along) != 0 {
+			// 	for i := range paper {
+			// 		paper[i] = append(paper[i], 0)
+			// 	}
+			// }
 			new := make([][]int, along)
 
 			for y := 0; y < along; y++ {
@@ -108,6 +132,11 @@ func main() {
 
 		} else {
 			along, _ := strconv.Atoi(fold_instructions[i][1])
+
+			// if (len(paper[0]) % along) != 0 {
+			// 	t := make([]int, len(paper[0]))
+			// 	paper = append(paper, t)
+			// }
 			new := make([][]int, len(paper))
 			for y := 0; y < len(paper); y++ {
 				new[y] = make([]int, along)
@@ -115,7 +144,7 @@ func main() {
 
 				for x := 0; x < along; x++ {
 					new[y][x] = (new[y][x] | paper[y][len(paper[y])-1-x])
-					count += new[y][x]
+					// count += new[y][x]
 				}
 				// break
 			}
@@ -133,6 +162,8 @@ func main() {
 			answer_pt1 += x
 		}
 	}
+	prettyPrintMatrix2D(paper)
+	prettyPrintMatrixLetters(paper)
 	fmt.Println(answer_pt1)
 
 } //EOF
