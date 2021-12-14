@@ -1,14 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-	x := []string{"a", "B", "cd", "AB"}
-	y := make([]string, len(x))
-	fmt.Println(x)
+	a := "fold along y=13"
+	y := strings.Split(a, "=")
 	fmt.Println(y)
-	copy(y, x)
-	fmt.Println(x)
-	fmt.Println(y)
+	fmt.Println(y[1])
+	fmt.Println(y[0][11:])
 
 }
