@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 func main() {
-	a := map[string]int{"one": 1, "two": 2, "three": 3, "four": 4}
-	b := a
-	b["one"] = 5
-	fmt.Println(a)
-	fmt.Println(b)
+	p := message.NewPrinter(language.English)
+	p.Printf("%d\n", 1000)
 
+	// Output:
+	// 1,000
 }

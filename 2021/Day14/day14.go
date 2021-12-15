@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
-var path = "sample.txt" //path to problem input
+var path = "input.txt" //path to problem input
 const PART int = 2
 
 // Function to handle errors
@@ -44,7 +47,7 @@ func main() {
 			tmp := strings.Split(temp_str, " -> ")
 			ins_map[tmp[0]] = tmp[1]
 		}
-		scanhelper++
+		scanhelper++ //ugh could probably do this another way
 	}
 
 	var a = make(map[string]int)
@@ -81,35 +84,27 @@ func main() {
 			//new = inserted letter
 			//want = resulting pairs (ex: AB -> C; therefor AB = AC CB)
 			children[p] = []string{p[:1] + new, new + p[1:]}
-			// fmt.Println(p, p[:1]+new, new+p[1:])
 		}
-		// //process maps of pairs
-		// pairs_new := pairs
-		for s := 0; s < 10; s++ {
-			pairs_new := pairs
+		// process maps of pairs
+		for s := 0; s < 40; s++ {
+			pairs_new := make(map[string]int)
 			for p, num := range pairs {
 				//need: for every element in pairs
+				//0) score resulting letter
 				//1) determine resulting pairs
 				//2) add to those resulting pairs
-				// c := children[p]
-				// fmt.Println(children[p][0])
-				// a[p] += pairs[p]
 				a[ins_map[p]] += num
-				fmt.Println(p, ins_map[p], num)
 				pairs_new[(children[p][0])] += num
 				pairs_new[(children[p][1])] += num
-				// pairs[p] = 0
-				// fmt.Println(p, (children[p][0]), (children[p][1]))
 			}
+			//save new set for the next round
 			pairs = pairs_new
-			fmt.Println()
 		}
-		fmt.Println(a)
 	}
 
 	//finally, find answers
 	most := 0
-	least := 9999999
+	least := 999999999999999999
 	for _, i := range a {
 		if i > most {
 			most = i
@@ -118,6 +113,8 @@ func main() {
 			least = i
 		}
 	}
-	fmt.Printf("The answer to Part 1 is: %v\n", most-least)
+	p := message.NewPrinter(language.English)
+	p.Printf("B=%d\tC=%d\nH=%d\tN=%d\n", a["B"], a["C"], a["H"], a["N"])
+	fmt.Printf("The answer to Part %v is: %v\n", PART, most-least)
 
 }
