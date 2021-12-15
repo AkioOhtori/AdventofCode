@@ -32,7 +32,7 @@ func main() {
 	//Go through the instructions and convert them to slices of slices, [ORIGIN],[DESTIN]
 	var scanhelper int = 0
 	var template string
-	var instructions [][]string
+	var ins_map = make(map[string]string)
 
 	for scanner.Scan() {
 		temp_str := scanner.Text()
@@ -41,7 +41,8 @@ func main() {
 		} else if scanhelper == 1 {
 
 		} else {
-			instructions = append(instructions, strings.Split(temp_str, " -> "))
+			tmp := strings.Split(temp_str, " -> ")
+			ins_map[tmp[0]] = tmp[1]
 		}
 		scanhelper++
 	}
@@ -55,21 +56,16 @@ func main() {
 		new_template := ""
 		for i := 1; i < len(template); i++ {
 			pair := (template[i-1 : i+1])
-			for _, x := range instructions {
-				if x[0] == pair {
-					new_template += pair[:1] + x[1]
-					a[string(x[1])] += 1
-					break
-				}
-			}
+
+			new_template += pair[:1] + ins_map[pair]
+			a[ins_map[pair]] += 1
+
 		}
 		new_template += template[len(template)-1:]
 		template = new_template
 	}
 
 	//finally, find answers
-
-	// fmt.Println(a)
 	most := 0
 	least := 9999999
 	for _, i := range a {
