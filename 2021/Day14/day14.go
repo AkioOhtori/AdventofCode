@@ -46,6 +46,11 @@ func main() {
 		scanhelper++
 	}
 
+	var a = make(map[string]int)
+	for _, i := range template {
+		a[string(i)] += 1
+	}
+
 	for s := 0; s < 10; s++ {
 		new_template := ""
 		for i := 1; i < len(template); i++ {
@@ -53,6 +58,8 @@ func main() {
 			for _, x := range instructions {
 				if x[0] == pair {
 					new_template += pair[:1] + x[1]
+					a[string(x[1])] += 1
+					break
 				}
 			}
 		}
@@ -61,15 +68,11 @@ func main() {
 	}
 
 	//finally, find answers
-	var a = make(map[string]int)
-	for _, i := range template {
-		a[string(i)] += 1
-	}
-	fmt.Println(a)
+
+	// fmt.Println(a)
 	most := 0
 	least := 9999999
 	for _, i := range a {
-		fmt.Println(i)
 		if i > most {
 			most = i
 		}
