@@ -22,4 +22,6 @@ Day 09 - Go - Matrix exploring (sort int, bounds checking, coords)
 Day 10 - Go - Opening and closing brackets (sort, maps, switch)
 Day 11 - Go - More matrix exploring, but with diagonals (bounds checking)
 Day 12 - Go - Path finding (string parsing, map making)
+Day 13 - Go - The folding game of hate (string parsing, matrix math)
+Day 14 - Go - Chain game (string parsing, string building)
 ```
