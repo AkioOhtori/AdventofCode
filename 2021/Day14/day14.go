@@ -7,8 +7,8 @@ import (
 	"strings"
 )
 
-var path = "input.txt" //path to problem input
-const PART int = 1
+var path = "sample.txt" //path to problem input
+const PART int = 2
 
 // Function to handle errors
 func isError(err error) bool {
@@ -48,21 +48,63 @@ func main() {
 	}
 
 	var a = make(map[string]int)
+	var pairs = make(map[string]int)
+	var children = make(map[string][]string)
+
 	for _, i := range template {
 		a[string(i)] += 1
 	}
+	if PART == 1 {
+		for s := 0; s < 10; s++ {
+			new_template := ""
+			for i := 1; i < len(template); i++ {
+				pair := (template[i-1 : i+1])
 
-	for s := 0; s < 10; s++ {
-		new_template := ""
+				new_template += pair[:1] + ins_map[pair]
+				a[ins_map[pair]] += 1
+
+			}
+			new_template += template[len(template)-1:]
+			template = new_template
+		}
+	} else {
+		//make map of pairs
 		for i := 1; i < len(template); i++ {
 			pair := (template[i-1 : i+1])
-
-			new_template += pair[:1] + ins_map[pair]
-			a[ins_map[pair]] += 1
-
+			pairs[pair] += 1
 		}
-		new_template += template[len(template)-1:]
-		template = new_template
+		fmt.Println(pairs)
+		fmt.Println(a)
+		fmt.Println()
+		for p, new := range ins_map {
+			//p = pair
+			//new = inserted letter
+			//want = resulting pairs (ex: AB -> C; therefor AB = AC CB)
+			children[p] = []string{p[:1] + new, new + p[1:]}
+			// fmt.Println(p, p[:1]+new, new+p[1:])
+		}
+		// //process maps of pairs
+		// pairs_new := pairs
+		for s := 0; s < 10; s++ {
+			pairs_new := pairs
+			for p, num := range pairs {
+				//need: for every element in pairs
+				//1) determine resulting pairs
+				//2) add to those resulting pairs
+				// c := children[p]
+				// fmt.Println(children[p][0])
+				// a[p] += pairs[p]
+				a[ins_map[p]] += num
+				fmt.Println(p, ins_map[p], num)
+				pairs_new[(children[p][0])] += num
+				pairs_new[(children[p][1])] += num
+				// pairs[p] = 0
+				// fmt.Println(p, (children[p][0]), (children[p][1]))
+			}
+			pairs = pairs_new
+			fmt.Println()
+		}
+		fmt.Println(a)
 	}
 
 	//finally, find answers
