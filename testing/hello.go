@@ -1,14 +1,8 @@
 package main
 
-import (
-	"golang.org/x/text/language"
-	"golang.org/x/text/message"
-)
+import "fmt"
 
 func main() {
-	p := message.NewPrinter(language.English)
-	p.Printf("%d\n", 1000)
-
-	// Output:
-	// 1,000
+	a := []int{1, 2, 3}
+	fmt.Println(a + 1)
 }

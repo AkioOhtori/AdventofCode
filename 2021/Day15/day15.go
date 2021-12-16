@@ -11,13 +11,14 @@ import (
 )
 
 var path = "input.txt" //path to problem input
-const PART int = 1
+const PART int = 2
 
 var endx int = 0
 var endy int = 0
 var answers = []int{math.MaxInt64}
-var step_danger = [200]int{}
 var distances [][]int
+var answer int = math.MaxInt64
+var cnt int = 0
 
 // Function to handle errors
 func isError(err error) bool {
@@ -27,13 +28,36 @@ func isError(err error) bool {
 	return (err != nil)
 }
 
+func prettyPrintMatrix2D(m [][]int) {
+	fmt.Println()
+	for _, x := range m {
+		fmt.Println(x)
+	}
+	fmt.Println()
+}
+
 //Bastardized Dijkstra's Algorithm
 func mapCave(cave [][]int, y int, x int, danger int) {
 	//make an array of all the possible directions
-	d := [4][2]int{{y + 1, x}, {y - 1, x}, {y, x + 1}, {y, x - 1}}
+	d := [][2]int{{y + 1, x}, {y - 1, x}, {y, x + 1}, {y, x - 1}}
+	// if PART == 1 {
+	// 	d = [][2]int{{y + 1, x}, {y - 1, x}, {y, x + 1}, {y, x - 1}}
+	// } else {
+	// 	d = [][2]int{{y + 1, x}, {y - 1, x}, {y, x + 1}, {y, x - 1}}
+	// }
 	//check to make sure we aren't done
 	if x == endx && y == endy {
-		answers = append(answers, danger)
+		// answers = append(answers, danger)
+		if danger < answer {
+			answer = danger
+			if cnt == 5000 {
+				fmt.Printf("%v\t", answer)
+				cnt = 0
+			}
+			cnt++
+			// fmt.Println(answer)
+		}
+		// fmt.Printf("%v\t", danger)
 		return
 	}
 	//iterate over the directions
@@ -77,20 +101,71 @@ func main() {
 		input = append(input, temp_int)
 	}
 
-	endx = len(input[0]) - 1 //ending x coords
-	endy = len(input) - 1    //ending y coords
+	//Part 2!
+	var input_pt2 [][]int
+	for y := 0; y < len(input); y++ {
+		var xnew []int
+		xnew = input[y]
+		copy(xnew, input[y])
 
-	//prefill the "distances" matrix with "infinity"
-	for y := 0; y <= endy; y++ {
-		var t []int
-		for x := 0; x <= endx; x++ {
-			t = append(t, math.MaxInt64)
+		for x := 0; x < len(input)*4; x++ {
+			n := xnew[x] + 1
+			if n > 9 {
+				n = 1
+			}
+			xnew = append(xnew, n)
 		}
-		distances = append(distances, t)
+		input_pt2 = append(input_pt2, xnew)
 	}
+	for y := 0; y < len(input)*4; y++ {
+		var xnew []int
+		// xnew = input_pt2[y]
+		// copy(xnew, input_pt2[y])
 
-	//Make it so!
-	mapCave(input, 0, 0, 0)
-	sort.Ints(answers)
-	fmt.Printf("The Answer to Part 1 is %v \n", answers[0])
+		for x := 0; x < len(input_pt2[y]); x++ {
+			n := input_pt2[y][x] + 1
+			if n > 9 {
+				n = 1
+			}
+			xnew = append(xnew, n)
+		}
+		input_pt2 = append(input_pt2, xnew)
+	}
+	// prettyPrintMatrix2D(input_pt2)
+	if PART == 1 {
+		endx = len(input[0]) - 1 //ending x coords
+		endy = len(input) - 1    //ending y coords
+
+		//prefill the "distances" matrix with "infinity"
+		for y := 0; y <= endy; y++ {
+			var t []int
+			for x := 0; x <= endx; x++ {
+				t = append(t, math.MaxInt64)
+			}
+			distances = append(distances, t)
+		}
+
+		//Make it so!
+		mapCave(input, 0, 0, 0)
+		sort.Ints(answers)
+		fmt.Printf("The Answer to Part 1 is %v \n", answer)
+	}
+	if PART == 2 {
+		endx = len(input_pt2[0]) - 1 //ending x coords
+		endy = len(input_pt2) - 1    //ending y coords
+
+		//prefill the "distances" matrix with "infinity"
+		for y := 0; y <= endy; y++ {
+			var t []int
+			for x := 0; x <= endx; x++ {
+				t = append(t, math.MaxInt64)
+			}
+			distances = append(distances, t)
+		}
+		//Make it so!
+		mapCave(input_pt2, 0, 0, 0)
+		fmt.Printf("\nFinished and working on the answer, which MIGHT be %v\n", answer)
+		// sort.Ints(answers)
+		// fmt.Printf("The Answer to Part 2 is %v \n", answers)
+	}
 }
