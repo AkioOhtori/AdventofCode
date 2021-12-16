@@ -1,8 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func main() {
-	a := []int{1, 2, 3}
-	fmt.Println(a + 1)
+	a := "CB"
+	b, _ := strconv.ParseUint(a, 16, 32)
+	fmt.Println(b)
+	bin := fmt.Sprintf("%04b", b)
+	fmt.Println(bin)
+	// bin += fmt.Sprintf("%04b", b)
+	// fmt.Println(bin)
 }

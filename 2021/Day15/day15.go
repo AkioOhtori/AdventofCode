@@ -40,15 +40,10 @@ func prettyPrintMatrix2D(m [][]int) {
 func mapCave(cave [][]int, y int, x int, danger int) {
 	//make an array of all the possible directions
 	d := [][2]int{{y + 1, x}, {y - 1, x}, {y, x + 1}, {y, x - 1}}
-	// if PART == 1 {
-	// 	d = [][2]int{{y + 1, x}, {y - 1, x}, {y, x + 1}, {y, x - 1}}
-	// } else {
-	// 	d = [][2]int{{y + 1, x}, {y - 1, x}, {y, x + 1}, {y, x - 1}}
-	// }
+
 	//check to make sure we aren't done
 	if x == endx && y == endy {
-		// answers = append(answers, danger)
-		if danger < answer {
+		if danger < answer { //I think this is trivial?
 			answer = danger
 			if cnt == 5000 {
 				fmt.Printf("%v\t", answer)
@@ -102,6 +97,8 @@ func main() {
 	}
 
 	//Part 2!
+
+	//Create new input by starting with full width
 	var input_pt2 [][]int
 	for y := 0; y < len(input); y++ {
 		var xnew []int
@@ -117,11 +114,9 @@ func main() {
 		}
 		input_pt2 = append(input_pt2, xnew)
 	}
+	//Propagate full width to length
 	for y := 0; y < len(input)*4; y++ {
 		var xnew []int
-		// xnew = input_pt2[y]
-		// copy(xnew, input_pt2[y])
-
 		for x := 0; x < len(input_pt2[y]); x++ {
 			n := input_pt2[y][x] + 1
 			if n > 9 {
@@ -131,7 +126,7 @@ func main() {
 		}
 		input_pt2 = append(input_pt2, xnew)
 	}
-	// prettyPrintMatrix2D(input_pt2)
+
 	if PART == 1 {
 		endx = len(input[0]) - 1 //ending x coords
 		endy = len(input) - 1    //ending y coords
@@ -165,7 +160,5 @@ func main() {
 		//Make it so!
 		mapCave(input_pt2, 0, 0, 0)
 		fmt.Printf("\nFinished and working on the answer, which MIGHT be %v\n", answer)
-		// sort.Ints(answers)
-		// fmt.Printf("The Answer to Part 2 is %v \n", answers)
 	}
 }
