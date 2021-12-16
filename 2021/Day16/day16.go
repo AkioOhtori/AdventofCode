@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 )
@@ -42,12 +43,10 @@ func isError(err error) bool {
 	return (err != nil)
 }
 
-func checkPacket(packet string, p int) int {
-	// p := 0 //place TODO
+func checkPacket(packet string, p int) (pp int, output []int) {
 	v := packet[p : p+3]
-
 	version, _ := strconv.ParseInt(v, 2, 64)
-	fmt.Println()
+
 	fmt.Printf("We're at postion %v and with version %vb = %v\n", p, v, version)
 	p += 3
 
@@ -58,7 +57,9 @@ func checkPacket(packet string, p int) int {
 
 	answer_pt1 += int(version)
 
-	if packet_type == LITERAL {
+	switch packet_type {
+
+	case LITERAL:
 		// literal value, read 5 bits at a time
 		//need to add bounds checking
 		bits := []string{}
@@ -68,17 +69,20 @@ func checkPacket(packet string, p int) int {
 			if bits[x][:1] == "0" {
 				break
 			}
-
-			//don't need to parse bits... yet
 		}
-		fmt.Printf(" which is a literal of length %v.\n", len(bits))
-		// fmt.Println(bits)
+		var o string = ""
+		for _, num := range bits {
+			o += string(num[1:])
+			// i, _ := strconv.ParseInt(num[1:], 2, 64)
+			// output = append(output, int(i))
+			fmt.Println(o)
+		}
+		temp, _ := strconv.ParseInt(o, 2, 64)
+		output = []int{int(temp)}
+		fmt.Printf(" which is a literal of value %v %v.\n", bits, output)
 
-	} else { //operator
-		// length_type := packet[p : p+1]
-		// fmt.Println(length_type)
-		// p++
-		fmt.Printf(" which is an operator.\n")
+	default:
+		fmt.Printf(" which is an operator of type %v.\n", packet_type)
 
 		if packet[p:p+1] == "0" {
 			p++
@@ -86,10 +90,18 @@ func checkPacket(packet string, p int) int {
 			length, _ := strconv.ParseInt(l, 2, 64)
 			p += 15
 			fmt.Printf("We had unknown number of subpackets of length %v\n", length)
-			// for p <= p+int(length) {
+
 			for x := p; p < x+int(length); x = x {
-				// fmt.Printf("Going to subpacket %v\n", packet[p:p+int(length)])
-				p = checkPacket(packet, p)
+				// var o []int
+				// p, o = checkPacket(packet, p)
+				// output = append(output, o...)
+				var o []int
+				var ooo []int
+				fmt.Printf("Going to subpacket %v\n", packet[p:p+11])
+				p, ooo = checkPacket(packet, p)
+				o = ooo
+				copy(o, ooo)
+				output = append(output, o...)
 			}
 		} else {
 			p++
@@ -97,22 +109,93 @@ func checkPacket(packet string, p int) int {
 			subpackets, _ := strconv.ParseInt(l, 2, 64)
 			p += 11
 			fmt.Printf("The length is %vb = %v subpackets\n", l, subpackets)
-			// p += 4 - (p % 4) //finish the packet like a good boy (99% this isn't going to fucking work)
-			// // check:
-			// if (a[(p / 4) : (p/4)+1]) == "0" {
-			// 	p += 4
-			// 	// goto check
-			// }
+
 			for x := 0; x < int(subpackets); x++ {
-				fmt.Printf("Going to subpacket %v\n", packet[p:p+11])
-				p = checkPacket(packet, p)
+				var o []int
+				var ooo []int
+				fmt.Printf("Going to subpacket %v \n", x) //packet[p:p+11])
+				p, ooo = checkPacket(packet, p)
+				o = ooo
+				copy(o, ooo)
+				output = append(output, o...)
 			}
 		}
+		fmt.Println(output)
 
+		switch packet_type {
+
+		case 0: //SUM
+			var o int
+			for _, x := range output {
+				o += x
+			}
+			fmt.Printf("We did a type %v on %v and got %v\n", packet_type, output, o)
+
+			output = []int{o}
+
+		case 1: //PRODUCT
+			var o int = 1
+			for _, x := range output {
+				o *= x
+			}
+			fmt.Printf("We did a type %v on %v and got %v\n", packet_type, output, o)
+			output = []int{o}
+		case 2: //MINIMUM
+			var o int = math.MaxInt64
+			for _, x := range output {
+				if x < o {
+					o = x
+				}
+			}
+			fmt.Printf("We did a type %v on %v and got %v\n", packet_type, output, o)
+			output = []int{o}
+		case 3: //MAXIMUM
+			var o int = 0
+			for _, x := range output {
+				if x > o {
+					o = x
+				}
+			}
+			fmt.Printf("We did a type %v on %v and got %v\n", packet_type, output, o)
+			output = []int{o}
+		case 5: //greater than
+			fmt.Printf("We did a type %v on %v and got %v\n", packet_type, output, 555)
+			if len(output) > 2 {
+				fmt.Println(output[999])
+			}
+			if output[0] > output[1] {
+				output = []int{1}
+			} else {
+				output = []int{0}
+			}
+		case 6: //less than
+			fmt.Printf("We did a type %v on %v and got %v\n", packet_type, output, 555)
+			if len(output) > 2 {
+				fmt.Println(output[999])
+			}
+			if output[0] < output[1] {
+				output = []int{1}
+			} else {
+				output = []int{0}
+			}
+		case 7: //equal
+			if len(output) > 2 {
+				fmt.Println(output[999])
+			}
+			fmt.Printf("We did a type %v on %v and got %v\n", packet_type, output, 555)
+			if output[0] == output[1] {
+				output = []int{1}
+			} else {
+				output = []int{0}
+			}
+		default:
+			fmt.Println("THESUNTHESUNTHESUN")
+		}
+		// fmt.Printf("We did a type %v and came up with %v", packet_type, output)
 	}
-	// fmt.Printf("Currently we're at %v/%v; %v %v\n", len(packet[:p]), len(packet[p:]), packet[:p], packet[p:])
-	// fmt.Printf("That represents %v %v\n", a[:(p/4)], a[(p/4):])
-	return p
+	pp = p
+	fmt.Println()
+	return
 }
 
 func main() {
@@ -140,9 +223,8 @@ func main() {
 		}
 		// fmt.Println(bin)
 	}
-	// for p := 0; p < len(bin); {
-	p := checkPacket(bin, 0)
-	fmt.Println(answer_pt1, p, bin[p:])
-	// break
-	// }
+	p, answer_pt2 := checkPacket(bin, 0)
+	fmt.Println(answer_pt1, p, bin[p:], answer_pt2)
+	fmt.Printf("%T", answer_pt2[0])
+
 }
