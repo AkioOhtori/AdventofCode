@@ -24,4 +24,6 @@ Day 11 - Go - More matrix exploring, but with diagonals (bounds checking)
 Day 12 - Go - Path finding (string parsing, map making)
 Day 13 - Go - The folding game of hate (string parsing, matrix math)
 Day 14 - Go - Chain game (string parsing, string building)
+Day 15 - Go - Pathfinding (Dijkstra's Algorithm)
+Day 16 - Go - Packet parsing (recursion, binary)
 ```
