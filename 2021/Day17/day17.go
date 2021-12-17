@@ -96,7 +96,7 @@ func main() {
 	for x := 1; x <= target_x[1]; x++ {
 		//steps, velocity
 		s, tv := calcX(x, target_x)
-		if PART == 1 {
+		if PART == 1 { //not actually needed as part 2 also gives the part 1 answer
 			if s > 1 && tv == 0 {
 				x_steps = append(x_steps, x)
 			}
