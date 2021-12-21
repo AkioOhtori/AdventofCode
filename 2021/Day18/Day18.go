@@ -52,52 +52,22 @@ func findNumbers(input []string, open int) (int, int, int) {
 	return x_out, y_out, end_r
 }
 
-func checkNew(o []string, z int, a int) ([]string, int) {
-	var n int = 1
-	b, _ := strconv.Atoi(o[z])
-	c, err := strconv.Atoi(o[z+1])
-	if err != nil {
-		b = b*10 + c
-		n = 2
-		fmt.Printf("Found a double newb at z=%v and made it %v", z, b)
-	}
-	var new []string
-	if (a + b) > 9 {
-		temp := strconv.Itoa((a + b))
-		new = []string{temp[:1], temp[1:]}
-	} else {
-		new = []string{strconv.Itoa((a + b))}
-	}
-	return new, n
-
-}
-
 func explode(o []string, open int) []string {
 	x, y, end := findNumbers(o, open)
 	fmt.Println("Exploding ", x, y, " at position ", open)
-	fmt.Println(o)
+	fmt.Println("\t\t\t", o)
 
 	var left []string
 	var right []string
 
 	for z := open; z >= 0; z-- { //NOT TESTED
-		_, err := strconv.Atoi(o[z])
+		l, err := strconv.Atoi(o[z])
 		if isError(err) {
 			continue
 		} else {
-			var new []string
-			// if (l + x) > 9 {
-			// 	temp := strconv.Itoa((l + x))
-			// 	new = []string{temp[:1], temp[1:]}
-			// } else {
-			// 	new = []string{strconv.Itoa((l + x))}
-			// }
-			var n int
-			new, n = checkNew(o, z, x)
 			left = append(left, o[:z]...)
-			left = append(left, new...)
-			left = append(left, o[z+n:open]...)
-			fmt.Println("left = ", left)
+			left = append(left, strconv.Itoa((l + x)))
+			left = append(left, o[z+1:open]...)
 			break
 		}
 	}
@@ -108,26 +78,14 @@ func explode(o []string, open int) []string {
 
 	//RIGHT!!
 	for z := end; z < len(o); z++ { //TESTED OK
-		_, err := strconv.Atoi(o[z])
+		r, err := strconv.Atoi(o[z])
 		if isError(err) {
 			continue
 		} else {
-
-			var new []string
-			// if (r + y) > 9 {
-			// 	temp := strconv.Itoa((r + y))
-			// 	new = []string{temp[:1], temp[1:]}
-			// } else {
-			// 	new = []string{strconv.Itoa((r + y))}
-			// }
-			var n int
-			new, n = checkNew(o, z, y)
 			right = append(right, "0")
-			// right = append(right, ",")
 			right = append(right, o[end+1:z]...)
-			right = append(right, new...)
-			right = append(right, o[z+n:]...)
-			fmt.Printf("right = %v\n", right)
+			right = append(right, strconv.Itoa((r + y)))
+			right = append(right, o[z+1:]...)
 			break
 		}
 	}
@@ -140,36 +98,19 @@ func explode(o []string, open int) []string {
 }
 
 func split(o []string, i int) []string {
-	fmt.Println("These string aren't too big to fail!  SPLIT!", o[i:i+2])
-	s := o[i] + o[i+1]
-	num, _ := strconv.Atoi(s)
-	var num_l []string
-	var num_r []string
-	if num >= 20 {
-		t := strconv.Itoa(int(math.Floor(float64(num) / 2.0)))
-		num_l = append(num_l, t[:1])
-		num_l = append(num_l, t[1:])
-		t = strconv.Itoa(int(math.Ceil(float64(num) / 2.0)))
-		num_r = append(num_r, t[:1])
-		num_r = append(num_r, t[1:])
-
-	} else {
-		t := strconv.Itoa(int(math.Floor(float64(num) / 2.0)))
-		num_l = append(num_l, t)
-		t = strconv.Itoa(int(math.Ceil(float64(num) / 2.0)))
-		num_r = append(num_r, t)
-
-	}
+	// fmt.Println("These string aren't too big to fail!  SPLIT!", o[i:i+2])
+	num, _ := strconv.Atoi(o[i])
+	num_l := strconv.Itoa(int(math.Floor(float64(num) / 2.0)))
+	num_r := strconv.Itoa(int(math.Ceil(float64(num) / 2.0)))
 	var new []string
 	new = append(new, o[:i]...)
-	// new = append(new, []string{"[", strconv.Itoa(num_l), ",", strconv.Itoa(num_r), "]"}...)
-	new = append(new, "[")
-	new = append(new, num_l...)
-	new = append(new, ",")
-	new = append(new, num_r...)
-	new = append(new, "]")
-	new = append(new, o[i+2:]...)
-	fmt.Println("Finished splitting and returned: ", new)
+	new = append(new, "[", num_l, ",", num_r, "]")
+	// new = append(new, num_l)
+	// new = append(new, ",")
+	// new = append(new, num_r)
+	// new = append(new, "]")
+	new = append(new, o[i+1:]...)
+	fmt.Println("Finished splitting:\t", new)
 	return new
 }
 
@@ -217,10 +158,10 @@ func main() {
 		*/
 
 		var opens int
-		var commas int
+		// var commas int
 		var resolved bool = false
 	outout:
-		for boobs := 0; boobs < 2000; boobs++ {
+		for { //} boobs := 0; boobs < 20000; boobs++ {
 			fmt.Println("hello")
 		out:
 			for i, e := range combined {
@@ -230,7 +171,7 @@ func main() {
 				case "[":
 					opens++
 					if opens >= 5 {
-						fmt.Println("Exploding at position ", i)
+						// fmt.Println("Exploding at position ", i)
 						temp := explode(combined, i)
 						// fmt.Println(temp)
 						combined = temp
@@ -240,28 +181,21 @@ func main() {
 					}
 
 				case ",":
-					commas++
+					// commas++
 				case "]":
 					opens--
 				case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
 					// fmt.Printf("We're at i=%v which is %v and checking for split\n", i, e)
-					_, err := strconv.Atoi(combined[i+1])
-					if isError(err) {
-						continue
-					} else {
-						fmt.Println("Doing a split()!", e, combined)
-						temp := split(combined, i)
-						combined = temp
-						copy(combined, temp)
-						resolved = true
-						break out
-					}
 				default: //number greater than 10... I hope!?
-					//split
-
+					fmt.Println("Doing a split!", e, "\t", combined)
+					temp := split(combined, i)
+					combined = temp
+					copy(combined, temp)
+					resolved = true
+					break out
 				} //switch
 			} //inner for loop
-			fmt.Println("Broke out and got ", combined)
+			fmt.Println("Broke out and got \t", combined)
 			fmt.Println()
 			opens = 0
 			if resolved {
@@ -275,5 +209,6 @@ func main() {
 		old = combined
 		copy(old, combined)
 		fmt.Printf("Fuuuuuuuuuuuuuuuully reduced this line and moving to the next!!\n")
+		break
 	}
 }
