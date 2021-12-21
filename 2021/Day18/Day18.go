@@ -142,16 +142,21 @@ func main() {
 
 	var old []string
 	var reduced []string
+	var input [][]string
 	//Go through the instructions and convert them to slices of slices, [ORIGIN],[DESTIN]
 	for scanner.Scan() {
 		var new []string
-		var combined []string
+
 		temp_str := scanner.Text()
 		new = strings.Split(temp_str, "")
-		// fmt.Println("New line is ", new)
+		input = append(input, new)
+	}
+
+	for _, new := range input {
+		var combined []string
 		if len(old) == 0 {
-			old = new
-			copy(old, new)
+			old = input[0]
+			copy(old, input[0])
 			continue
 		} else {
 			// copy(combined, old)
