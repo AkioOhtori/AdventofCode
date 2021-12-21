@@ -2,15 +2,18 @@ package main
 
 import (
 	"fmt"
-	"strconv"
+	"math"
 )
 
 func main() {
-	a := "CB"
-	b, _ := strconv.ParseUint(a, 16, 32)
-	fmt.Println(b)
-	bin := fmt.Sprintf("%04b", b)
-	fmt.Println(bin)
-	// bin += fmt.Sprintf("%04b", b)
-	// fmt.Println(bin)
+	a := []int{0, 1, 2, 3, 4, 5, 6, 7, 9}
+	fmt.Println(a[:1])
+	fmt.Println(a[1:])
+
+	b := "01"
+	fmt.Println(b[:1])
+	fmt.Println(b[1:])
+
+	fmt.Println((math.Floor(float64(7) / 2.0)))
+	fmt.Println((math.Ceil(float64(7) / 2.0)))
 }
