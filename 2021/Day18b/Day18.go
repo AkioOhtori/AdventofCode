@@ -143,6 +143,7 @@ func main() {
 	var old []string
 	var reduced []string
 	var input [][]string
+	var answer_pt2 int
 	//Go through the instructions and convert them to slices of slices, [ORIGIN],[DESTIN]
 	for scanner.Scan() {
 		var new []string
@@ -152,104 +153,108 @@ func main() {
 		input = append(input, new)
 	}
 
-	for _, new := range input {
-		var combined []string
-		if len(old) == 0 {
-			old = input[0]
-			copy(old, input[0])
-			continue
-		} else {
+	for x := range input {
+		for y := x + 1; y < len(input); y++ {
+			var combined []string
+
 			combined = []string{"["}
-			combined = append(combined, old...)
+			combined = append(combined, input[x]...)
 			combined = append(combined, ",")
-			combined = append(combined, new...)
+			combined = append(combined, input[y]...)
 			combined = append(combined, "]")
-		}
 
-		var opens int
-		var resolved bool = false
-	outout:
-		for {
-		out:
-			for i, e := range combined {
-				// fmt.Println(i, "\t", e)
+			var opens int
+			var resolved bool = false
+		outout:
+			for {
+			out:
+				for i, e := range combined {
+					// fmt.Println(i, "\t", e)
 
-				switch e {
-				case "[":
-					opens++
-					if opens >= 5 {
-						// fmt.Println("Exploding at position ", i)
-						temp := explode(combined, i)
-						// fmt.Println(temp)
+					switch e {
+					case "[":
+						opens++
+						if opens >= 5 {
+							// fmt.Println("Exploding at position ", i)
+							temp := explode(combined, i)
+							// fmt.Println(temp)
+							combined = temp
+							copy(combined, temp)
+							resolved = true
+							break out
+						}
+					case "]":
+						opens--
+					default:
+						//don't care
+					} //end switch
+				} //end inner for
+				// fmt.Println("Broke out and got \t", combined)
+				// fmt.Println()
+				opens = 0
+				if resolved {
+					resolved = false
+				} else {
+					// fmt.Println("Finished exploding?")
+					done, temp := callSplit(combined)
+					if !done {
 						combined = temp
 						copy(combined, temp)
-						resolved = true
-						break out
+					} else {
+						reduced = combined
+						copy(reduced, combined)
+						break outout
 					}
-				case "]":
-					opens--
-				default:
-					//don't care
-				} //end switch
-			} //end inner for
-			// fmt.Println("Broke out and got \t", combined)
-			// fmt.Println()
-			opens = 0
-			if resolved {
-				resolved = false
-			} else {
-				// fmt.Println("Finished exploding?")
-				done, temp := callSplit(combined)
-				if !done {
-					combined = temp
-					copy(combined, temp)
-				} else {
-					reduced = combined
-					copy(reduced, combined)
-					break outout
 				}
-			}
-		} //end outer for one
-		old = combined
-		copy(old, combined)
-		// fmt.Printf("Fuuuuuuuuuuuuuuuully reduced this line and moving to the next!!\n")
-		// break
-	} //end outer for
+			} //end outer for one
+			old = combined
+			copy(old, combined)
+			// fmt.Printf("Fuuuuuuuuuuuuuuuully reduced this line and moving to the next!!\n")
+			// break
+			//end outer for
 
-	//now that that nightmare is over, we have to score this...
-	// done:
-	for {
-		var newnew []string
-		var done bool = true
-	done:
-		for i, e := range reduced {
-			switch e {
-			case ",":
-				if reduced[i+1] != "[" && reduced[i-1] != "]" {
-					a, _ := strconv.Atoi(reduced[i-1])
-					b, _ := strconv.Atoi(reduced[i+1])
-					temp := a*3 + b*2
-					temp_str := strconv.Itoa(temp)
-					newnew = append(newnew, reduced[:(i-2)]...)
-					newnew = append(newnew, temp_str)
-					newnew = append(newnew, reduced[(i+3):]...)
-					// fmt.Println(newnew)
-					reduced = newnew
-					copy(reduced, newnew)
-					done = false
-					break done
+			//now that that nightmare is over, we have to score this...
+			// done:
+			for {
+				var newnew []string
+				var done bool = true
+			done:
+				for i, e := range reduced {
+					switch e {
+					case ",":
+						if reduced[i+1] != "[" && reduced[i-1] != "]" {
+							a, _ := strconv.Atoi(reduced[i-1])
+							b, _ := strconv.Atoi(reduced[i+1])
+							temp := a*3 + b*2
+							temp_str := strconv.Itoa(temp)
+							newnew = append(newnew, reduced[:(i-2)]...)
+							newnew = append(newnew, temp_str)
+							newnew = append(newnew, reduced[(i+3):]...)
+							// fmt.Println(newnew)
+							reduced = newnew
+							copy(reduced, newnew)
+							done = false
+							break done
 
+						}
+					default:
+						// newnew = append(newnew, e)
+					}
+
+				} //end of inner for
+				if done {
+					break
 				}
-			default:
-				// newnew = append(newnew, e)
+				// fmt.Println(newnew)
+				// break
 			}
-
-		} //end of inner for
-		if done {
-			break
+			fmt.Println(reduced)
+			a, _ := strconv.Atoi(reduced[0])
+			if a > answer_pt2 {
+				answer_pt2 = a
+			}
 		}
-		// fmt.Println(newnew)
-		// break
+
 	}
-	fmt.Println(reduced)
+	fmt.Println(answer_pt2)
 }
