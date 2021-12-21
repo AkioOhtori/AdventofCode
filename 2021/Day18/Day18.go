@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-var path = "sample2.txt" //path to problem input
+var path = "input.txt" //path to problem input
 const PART int = 1
 
 // Function to handle errors
@@ -105,13 +105,28 @@ func split(o []string, i int) []string {
 	var new []string
 	new = append(new, o[:i]...)
 	new = append(new, "[", num_l, ",", num_r, "]")
-	// new = append(new, num_l)
-	// new = append(new, ",")
-	// new = append(new, num_r)
-	// new = append(new, "]")
 	new = append(new, o[i+1:]...)
 	fmt.Println("Finished splitting:\t", new)
 	return new
+}
+
+func callSplit(combined []string) (done bool, output []string) {
+	done = true
+doom:
+	for i, e := range combined {
+		switch e {
+		case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",", "[", "]": //all valid
+			//don't care
+		default: //any two didget number
+			fmt.Println("Doing a split!", e, "\t", combined)
+			temp := split(combined, i)
+			output = temp
+			copy(output, temp)
+			done = false
+			break doom
+		}
+	}
+	return
 }
 
 func main() {
@@ -126,6 +141,7 @@ func main() {
 	scanner.Split(bufio.ScanLines)
 
 	var old []string
+	var reduced []string
 	//Go through the instructions and convert them to slices of slices, [ORIGIN],[DESTIN]
 	for scanner.Scan() {
 		var new []string
@@ -179,36 +195,69 @@ func main() {
 						resolved = true
 						break out
 					}
-
-				case ",":
-					// commas++
 				case "]":
 					opens--
-				case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9":
-					// fmt.Printf("We're at i=%v which is %v and checking for split\n", i, e)
-				default: //number greater than 10... I hope!?
-					fmt.Println("Doing a split!", e, "\t", combined)
-					temp := split(combined, i)
-					combined = temp
-					copy(combined, temp)
-					resolved = true
-					break out
-				} //switch
-			} //inner for loop
+				default:
+					//don't care
+				} //end switch
+			} //end inner for
 			fmt.Println("Broke out and got \t", combined)
 			fmt.Println()
 			opens = 0
 			if resolved {
 				resolved = false
 			} else {
-				fmt.Println("Finished?")
-				break outout
+				fmt.Println("Finished exploding?")
+				done, temp := callSplit(combined)
+				if !done {
+					combined = temp
+					copy(combined, temp)
+				} else {
+					reduced = combined
+					copy(reduced, combined)
+					break outout
+				}
 			}
-
-		} //outer for loop
+		} //end outer for one
 		old = combined
 		copy(old, combined)
 		fmt.Printf("Fuuuuuuuuuuuuuuuully reduced this line and moving to the next!!\n")
-		break
+		// break
+	} //end outer for
+
+	//now that that nightmare is over, we have to score this...
+	// done:
+	for {
+		var newnew []string
+		var done bool = true
+	done:
+		for i, e := range reduced {
+			switch e {
+			case ",":
+				if reduced[i+1] != "[" && reduced[i-1] != "]" {
+					a, _ := strconv.Atoi(reduced[i-1])
+					b, _ := strconv.Atoi(reduced[i+1])
+					temp := a*3 + b*2
+					temp_str := strconv.Itoa(temp)
+					newnew = append(newnew, reduced[:(i-2)]...)
+					newnew = append(newnew, temp_str)
+					newnew = append(newnew, reduced[(i+3):]...)
+					fmt.Println(newnew)
+					reduced = newnew
+					copy(reduced, newnew)
+					done = false
+					break done
+
+				}
+			default:
+				// newnew = append(newnew, e)
+			}
+
+		} //end of inner for
+		if done {
+			break
+		}
+		fmt.Println(newnew)
+		// break
 	}
 }
