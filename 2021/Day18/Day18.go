@@ -54,8 +54,8 @@ func findNumbers(input []string, open int) (int, int, int) {
 
 func explode(o []string, open int) []string {
 	x, y, end := findNumbers(o, open)
-	fmt.Println("Exploding ", x, y, " at position ", open)
-	fmt.Println("\t\t\t", o)
+	// fmt.Println("Exploding ", x, y, " at position ", open)
+	// fmt.Println("\t\t\t", o)
 
 	var left []string
 	var right []string
@@ -106,7 +106,7 @@ func split(o []string, i int) []string {
 	new = append(new, o[:i]...)
 	new = append(new, "[", num_l, ",", num_r, "]")
 	new = append(new, o[i+1:]...)
-	fmt.Println("Finished splitting:\t", new)
+	// fmt.Println("Finished splitting:\t", new)
 	return new
 }
 
@@ -118,7 +118,7 @@ doom:
 		case "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",", "[", "]": //all valid
 			//don't care
 		default: //any two didget number
-			fmt.Println("Doing a split!", e, "\t", combined)
+			// fmt.Println("Doing a split!", e, "\t", combined)
 			temp := split(combined, i)
 			output = temp
 			copy(output, temp)
@@ -148,7 +148,7 @@ func main() {
 		var combined []string
 		temp_str := scanner.Text()
 		new = strings.Split(temp_str, "")
-		fmt.Println("New line is ", new)
+		// fmt.Println("New line is ", new)
 		if len(old) == 0 {
 			old = new
 			copy(old, new)
@@ -160,25 +160,15 @@ func main() {
 			combined = append(combined, ",")
 			combined = append(combined, new...)
 			combined = append(combined, "]")
-			fmt.Println("New starting point is: ", combined)
+			// fmt.Println("New starting point is: ", combined)
 			// break
 		}
-
-		//reduce
-
-		/*
-			To reduce a snailfish number, you must repeatedly do the first action in this list that applies to the snailfish number:
-
-			If any pair is nested inside four pairs, the leftmost such pair explodes.
-			If any regular number is 10 or greater, the leftmost such regular number splits.
-		*/
 
 		var opens int
 		// var commas int
 		var resolved bool = false
 	outout:
-		for { //} boobs := 0; boobs < 20000; boobs++ {
-			fmt.Println("hello")
+		for {
 		out:
 			for i, e := range combined {
 				// fmt.Println(i, "\t", e)
@@ -201,13 +191,13 @@ func main() {
 					//don't care
 				} //end switch
 			} //end inner for
-			fmt.Println("Broke out and got \t", combined)
-			fmt.Println()
+			// fmt.Println("Broke out and got \t", combined)
+			// fmt.Println()
 			opens = 0
 			if resolved {
 				resolved = false
 			} else {
-				fmt.Println("Finished exploding?")
+				// fmt.Println("Finished exploding?")
 				done, temp := callSplit(combined)
 				if !done {
 					combined = temp
@@ -221,7 +211,7 @@ func main() {
 		} //end outer for one
 		old = combined
 		copy(old, combined)
-		fmt.Printf("Fuuuuuuuuuuuuuuuully reduced this line and moving to the next!!\n")
+		// fmt.Printf("Fuuuuuuuuuuuuuuuully reduced this line and moving to the next!!\n")
 		// break
 	} //end outer for
 
@@ -242,7 +232,7 @@ func main() {
 					newnew = append(newnew, reduced[:(i-2)]...)
 					newnew = append(newnew, temp_str)
 					newnew = append(newnew, reduced[(i+3):]...)
-					fmt.Println(newnew)
+					// fmt.Println(newnew)
 					reduced = newnew
 					copy(reduced, newnew)
 					done = false
@@ -257,7 +247,8 @@ func main() {
 		if done {
 			break
 		}
-		fmt.Println(newnew)
+		// fmt.Println(newnew)
 		// break
 	}
+	fmt.Println(reduced)
 }
