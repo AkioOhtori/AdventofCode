@@ -26,4 +26,10 @@ Day 13 - Go - The folding game of hate (string parsing, matrix math)
 Day 14 - Go - Chain game (string parsing, string building)
 Day 15 - Go - Pathfinding (Dijkstra's Algorithm)
 Day 16 - Go - Packet parsing (recursion, binary)
+Day 17 - Go - Throwing probes (trajectory, statistics, bounds)
+Day 18 - Go - String building and reduction (slices mostly)
+Day 19 - Go - Skipped because no [NOT COMPLETED]
+Day 20 - Go - Infinite 2D planes and matrix exploring (right answer, bad code)
+Day 21 - Go - Universes and rolling (recursive loops and simplification)
+Day 22 - Go - Infinity 3D Cubes... again (bounds checking) [NOT COMPLETED]
 ```
