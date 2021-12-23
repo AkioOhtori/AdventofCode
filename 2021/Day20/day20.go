@@ -17,13 +17,13 @@ func isError(err error) bool {
 	return (err != nil)
 }
 
-func prettyPrintMatrix2D(m [][]int) {
-	fmt.Println()
-	for _, x := range m {
-		fmt.Println(x)
-	}
-	fmt.Println()
-}
+// func prettyPrintMatrix2D(m [][]int) {
+// 	fmt.Println()
+// 	for _, x := range m {
+// 		fmt.Println(x)
+// 	}
+// 	fmt.Println()
+// }
 
 func prettyPrintMatrixLetters(m [][]int) {
 	fmt.Println()
@@ -37,35 +37,6 @@ func prettyPrintMatrixLetters(m [][]int) {
 		}
 		fmt.Println()
 	}
-}
-
-func expand(image [][]int, i int) [][]int {
-	var new_image [][]int
-	var n int = 0
-
-	new_image = append(new_image, make([]int, len(image[0])+6))
-	new_image = append(new_image, make([]int, len(image[0])+6))
-	new_image = append(new_image, make([]int, len(image[0])+6))
-	for i := range image {
-		var new_row []int
-		new_row = append(new_row, n, n, n)
-		new_row = append(new_row, image[i]...)
-		new_row = append(new_row, n, n, n)
-		new_image = append(new_image, new_row)
-	}
-	new_image = append(new_image, make([]int, len(image[0])+6))
-	new_image = append(new_image, make([]int, len(image[0])+6))
-	new_image = append(new_image, make([]int, len(image[0])+6))
-	// prettyPrintMatrix2D(new_image)
-	if n == 1 {
-		for x := 0; x < 3; x++ {
-			for z := 0; z < len(new_image[0]); z++ {
-				new_image[x][z] = 1
-				new_image[len(new_image)-x-1][z] = 1
-			}
-		}
-	}
-	return new_image
 }
 
 func fullExpand(image [][]int, e int) [][]int {
