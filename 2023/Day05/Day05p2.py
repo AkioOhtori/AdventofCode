@@ -4,7 +4,7 @@ start_time = time.time()
 seeds = {}
 maps = {}
 
-f = open("Day05\\taylor.txt")
+f = open("Day05\\data.txt")
 alm = f.read().strip().splitlines()
 
 temp = alm[0][alm[0].find(":")+2:].split(" ") #This creates a clean seed list
