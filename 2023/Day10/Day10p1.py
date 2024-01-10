@@ -5,7 +5,6 @@ steps = 0
 loc = []
 dist = 0
 ans = 0
-blank = []
 
 GO = {
     "|": "NS",
@@ -54,7 +53,6 @@ S is the starting position of the animal; there is a pipe on this tile, but your
 
 for line in open("Day10\\data.txt"):
     map.append(line.strip())
-    blank.append("."*len(line.strip()))
     if "S" in line:
         s = [len(map) - 1, line.find("S")]
 
